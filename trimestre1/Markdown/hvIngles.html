@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagrama Interactivo de Flexbox</title>
+    <style>
+        /* === ESTILOS BASE Y MINIMALISTAS (DARK MODE) === */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+        }
+
+        /* Fondo principal oscuro */
+        body {
+            background-color: #121212;
+            color: #d4d4d4;
+            padding: 2rem 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Contenedor principal de la tarjeta */
+        .diagram-card {
+            max-width: 900px;
+            width: 100%;
+            background-color: #1e1e1e;
+            padding: 2.5rem;
+            border-radius: 6px;
+            border-left: 6px solid #4a4a4a;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        /* Encabezado */
+        .diagram-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            border-bottom: 1px solid #444444;
+            padding-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        h1 small {
+            display: block;
+            font-size: 0.8rem;
+            color: #a0a0a0;
+            font-weight: normal;
+            margin-top: 0.2rem;
+        }
+
+        /* Controles de botones (Fila / Columna) */
+        .controls {
+            display: flex;
+            gap: 0.5rem;
+            background-color: #2a2a2a;
+            padding: 4px;
+            border-radius: 4px;
+            border: 1px solid #444444;
+        }
+
+        .controls button {
+            background: transparent;
+            border: none;
+            color: #a0a0a0;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .controls button.active {
+            background-color: #4a4a4a;
+            color: #ffffff;
+        }
+
+        /* Área visual del diagrama */
+        .diagram-container {
+            position: relative;
+            background-color: #121212;
+            border-radius: 6px;
+            border: 1px solid #333333;
+            padding: 3rem 1.5rem 2rem 1.5rem;
+            min-height: 280px;
+        }
+
+        /* Contenedor Flex principal */
+        .flex-container {
+            display: flex;
+            gap: 1rem;
+            padding: 1.5rem;
+            background-color: #1e1e1e;
+            border-radius: 4px;
+            border: 2px dashed #666666;
+            min-height: 140px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            transition: all 0.3s ease;
+        }
+
+        /* Clases para cambiar dirección desde JS */
+        .flex-container.row {
+            flex-direction: row;
+        }
+
+        .flex-container.column {
+            flex-direction: column;
+        }
+
+        /* Ítems internos del Flex */
+        .flex-item {
+            background-color: #2a2a2a;
+            border: 1px solid #555555;
+            border-radius: 4px;
+            padding: 1rem 1.5rem;
+            font-weight: bold;
+            color: #ffffff;
+            font-size: 1.1rem;
+            min-width: 50px;
+            text-align: center;
+        }
+
+        /* Etiquetas de los ejes (Main y Cross) */
+        .axis-label {
+            position: absolute;
+            font-size: 0.7rem;
+            font-weight: bold;
+            color: #ffffff;
+            background-color: #333333;
+            padding: 2px 8px;
+            border-radius: 3px;
+            letter-spacing: 0.5px;
+        }
+
+        .axis-label.main { background-color: #555555; }
+        .axis-label.cross { background-color: #383838; border: 1px solid #666666; }
+
+        /* Leyenda inferior */
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            font-size: 0.85rem;
+            color: #a0a0a0;
+            border-top: 1px solid #333333;
+            padding-top: 1rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .color-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+        }
+
+        /* Pie de página explicativo */
+        .diagram-footer {
+            text-align: center;
+            font-size: 0.85rem;
+            color: #888888;
+        }
+
+        .diagram-footer strong {
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+
+    <article class="diagram-card">
+
+        <!-- ENCABEZADO -->
+        <header class="diagram-header">
+            <h1>
+                Diagrama de Flexbox
+                <small>Comportamiento de ejes en tiempo real</small>
+            </h1>
+
+            <div class="controls">
+                <button class="active" onclick="setDirection('row')">row (Fila)</button>
+                <button onclick="setDirection('column')">column (Columna)</button>
+            </div>
+        </header>
+
+        <!-- DIAGRAMA VISUAL -->
+        <figure class="diagram-container">
+            <div class="flex-container row" id="flexContainer">
+                <div class="flex-item">1</div>
+                <div class="flex-item">2</div>
+                <div class="flex-item">3</div>
+                <div class="flex-item">4</div>
+            </div>
+            <div id="axisLabels"></div>
+        </figure>
+
+        <!-- LEYENDA -->
+        <aside class="legend">
+            <span class="legend-item"><span class="color-dot" style="background: #555555;"></span> Eje Principal</span>
+            <span class="legend-item"><span class="color-dot" style="background: #383838; border: 1px solid #666666;"></span> Eje Cruzado</span>
+        </aside>
+
+        <!-- PIE -->
+        <footer class="diagram-footer">
+            <strong>flex-direction: <span id="directionDisplay">row</span></strong>
+        </footer>
+
+    </article>
+
+    <!-- SCRIPT SENCILLO Y CLARO -->
+    <script>
+        const container = document.getElementById('flexContainer');
+        const directionDisplay = document.getElementById('directionDisplay');
+        const axisLabelsContainer = document.getElementById('axisLabels');
+        const buttons = document.querySelectorAll('.controls button');
+
+        function setDirection(direction) {
+            // Cambia la clase row/column en el contenedor
+            container.className = `flex-container ${direction}`;
+            directionDisplay.innerText = direction;
+
+            // Actualiza los botones activos
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Actualiza las etiquetas de los ejes visuales
+            updateLabels(direction);
+        }
+
+        function updateLabels(direction) {
+            axisLabelsContainer.innerHTML = '';
+
+            const mainLabel = document.createElement('div');
+            mainLabel.className = 'axis-label main';
+
+            const crossLabel = document.createElement('div');
+            crossLabel.className = 'axis-label cross';
+
+            if (direction === 'row') {
+                mainLabel.innerText = 'EJE PRINCIPAL (HORIZONTAL)';
+                mainLabel.style.top = '10px';
+                mainLabel.style.left = '20px';
+
+                crossLabel.innerText = 'EJE CRUZADO (VERTICAL)';
+                crossLabel.style.top = '10px';
+                crossLabel.style.right = '20px';
+            } else {
+                mainLabel.innerText = 'EJE PRINCIPAL (VERTICAL)';
+                mainLabel.style.top = '10px';
+                mainLabel.style.left = '20px';
+
+                crossLabel.innerText = 'EJE CRUZADO (HORIZONTAL)';
+                crossLabel.style.bottom = '10px';
+                crossLabel.style.left = '20px';
+            }
+
+            axisLabelsContainer.appendChild(mainLabel);
+            axisLabelsContainer.appendChild(crossLabel);
+        }
+
+        // Inicializar etiquetas al cargar
+        updateLabels('row');
+    </script>
+
+</body>
+</html>

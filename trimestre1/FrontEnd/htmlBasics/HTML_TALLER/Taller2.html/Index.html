@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blog de Noticias Tecnológicas</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@300;400;600;700&display=swap" rel="stylesheet" />
+
+    <style>
+        /* === ESTILOS BASE Y VARIABLES (DARK MODE MINIMALISTA) === */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+        }
+
+        :root {
+            --bg-primary: #121212;
+            --bg-secondary: #1e1e1e;
+            --bg-tertiary: #252525;
+            --text-primary: #ffffff;
+            --text-secondary: #d4d4d4;
+            --text-muted: #888888;
+            --border-color: #333333;
+            --accent-color: #555555;
+            --accent-hover: #777777;
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            --radius: 6px;
+            --transition: 0.2s ease-in-out;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-secondary);
+            line-height: 1.6;
+            padding: 1rem;
+            min-height: 100vh;
+        }
+
+        /* Contenedor principal */
+        .blog-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--bg-secondary);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border-left: 6px solid var(--accent-color);
+            padding: 2rem;
+            transition: margin-left 0.3s ease;
+        }
+
+        /* Menú lateral */
+        .menu-lateral {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 240px;
+            height: 100vh;
+            background: #181818;
+            color: var(--text-primary);
+            padding: 2rem 1.5rem;
+            overflow-y: auto;
+            z-index: 1000;
+            transform: translateX(-100%);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border-right: 1px solid var(--border-color);
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .menu-lateral.abierto {
+            transform: translateX(0);
+        }
+
+        .menu-lateral h3 {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1.2rem;
+            color: var(--text-primary);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.6rem;
+        }
+
+        .menu-lateral ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .menu-lateral ul li {
+            margin-bottom: 6px;
+        }
+
+        .menu-lateral ul li a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: block;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: background var(--transition), color var(--transition);
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .menu-lateral ul li a:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .menu-lateral .close-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            cursor: pointer;
+            float: right;
+            margin-top: -6px;
+        }
+
+        /* Botón para abrir menú lateral (solo móvil) */
+        .btn-menu-toggle {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-block;
+            margin-bottom: 1rem;
+            font-size: 0.85rem;
+        }
+
+        .btn-menu-toggle:hover {
+            background: var(--accent-color);
+        }
+
+        /* Header y navegación horizontal */
+        .blog-header {
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .blog-header h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .blog-header h1 span {
+            color: var(--text-muted);
+        }
+
+        /* Barra de navegación de flexbox */
+        .nav-principal ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px 12px;
+            padding: 0;
+            background: var(--bg-tertiary);
+            border-radius: 4px;
+            padding: 6px 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .nav-principal ul li a {
+            display: block;
+            padding: 6px 10px;
+            text-decoration: none;
+            font-weight: 600;
+            color: var(--text-secondary);
+            border-radius: 3px;
+            font-size: 0.85rem;
+            transition: background var(--transition), color var(--transition);
+        }
+
+        .nav-principal ul li a:hover,
+        .nav-principal ul li a:focus {
+            background: var(--accent-color);
+            color: var(--text-primary);
+        }
+
+        /* Contenido Principal */
+        .contenido-principal {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        /* Tarjetas de producto dinámicas */
+        .contenedor-tarjetas {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+
+        .tarjeta {
+            background: var(--bg-tertiary);
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+            flex: 1 1 220px;
+            max-width: 280px;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .tarjeta:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-hover);
+        }
+
+        .tarjeta img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 4px;
+            background: #111111;
+        }
+
+        .tarjeta h3 {
+            font-size: 1rem;
+            margin: 10px 0 6px 0;
+            color: var(--text-primary);
+        }
+
+        .tarjeta p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            flex: 1;
+        }
+
+        .tarjeta .btn-tarjeta {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            padding: 8px 0;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 12px;
+            width: 100%;
+            font-size: 0.85rem;
+        }
+
+        .tarjeta .btn-tarjeta:hover {
+            background: var(--accent-color);
+        }
+
+        /* Galería */
+        .galeria {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .galeria .item-galeria {
+            border-radius: var(--radius);
+            height: 160px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+        }
+
+        .galeria .item-galeria img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            filter: grayscale(40%) contrast(110%);
+            transition: filter 0.3s;
+        }
+
+        .galeria .item-galeria:hover img {
+            filter: grayscale(0%);
+        }
+
+        .galeria .item-galeria .overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.85));
+            color: white;
+            padding: 15px 12px 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* Formulario de contacto */
+        .formulario-contacto {
+            background: var(--bg-tertiary);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            margin: 1rem 0;
+        }
+
+        .formulario-contacto h2 {
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .formulario-contacto .grupo {
+            margin-bottom: 1rem;
+        }
+
+        .formulario-contacto label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        .formulario-contacto input,
+        .formulario-contacto textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            outline: none;
+        }
+
+        .formulario-contacto input:focus,
+        .formulario-contacto textarea:focus {
+            border-color: var(--accent-hover);
+        }
+
+        .formulario-contacto .btn-enviar {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .formulario-contacto .btn-enviar:hover {
+            background: var(--accent-color);
+        }
+
+        /* Artículos */
+        .articulo-blog {
+            background: var(--bg-tertiary);
+            border-radius: var(--radius);
+            padding: 1.2rem;
+            border: 1px solid var(--border-color);
+            margin-bottom: 1.2rem;
+            scroll-margin-top: 20px;
+        }
+
+        .articulo-blog h2 {
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .articulo-blog .meta {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .articulo-blog p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .articulo-blog .leer-mas {
+            display: inline-block;
+            margin-top: 8px;
+            color: var(--text-primary);
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 0.85rem;
+            border-bottom: 1px solid var(--text-muted);
+        }
+
+        .articulo-blog .leer-mas:hover {
+            border-color: var(--text-primary);
+        }
+
+        /* Aside (enlaces laterales) */
+        .aside-blog {
+            background: var(--bg-tertiary);
+            border-radius: var(--radius);
+            padding: 1.2rem;
+            border: 1px solid var(--border-color);
+            align-self: start;
+            position: sticky;
+            top: 20px;
+        }
+
+        .aside-blog h3 {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.4rem;
+        }
+
+        .aside-blog ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .aside-blog ul li {
+            margin-bottom: 6px;
+        }
+
+        .aside-blog ul li a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: color var(--transition);
+        }
+
+        .aside-blog ul li a:hover {
+            color: var(--text-primary);
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        .blog-footer {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .blog-footer strong {
+            color: var(--text-primary);
+        }
+
+        /* Media Queries */
+        @media (min-width: 768px) {
+            .galeria {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .menu-lateral {
+                transform: translateX(0);
+            }
+
+            .btn-menu-toggle {
+                display: none;
+            }
+
+            .blog-container {
+                margin-left: 260px;
+                padding: 2.5rem;
+            }
+
+            .menu-lateral .close-btn {
+                display: none;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .blog-container {
+                padding: 1rem;
+                margin-left: 0 !important;
+            }
+
+            .contenido-principal {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .blog-header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+
+            .blog-header h1 {
+                font-size: 1.4rem;
+                text-align: center;
+            }
+
+            .nav-principal ul {
+                justify-content: center;
+            }
+
+            .menu-lateral {
+                width: 260px;
+            }
+
+            .menu-lateral .close-btn {
+                display: block;
+            }
+
+            .aside-blog {
+                position: static;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <aside class="menu-lateral" id="menuLateral">
+        <button class="close-btn" id="closeMenuBtn" aria-label="Cerrar menú">✕</button>
+        <h3>Navegación</h3>
+        <ul>
+            <li><a href="#inicio">Inicio</a></li>
+            <li><a href="#noticias">Noticias</a></li>
+            <li><a href="#ciencia">Desarrollo</a></li>
+            <li><a href="#productos">Herramientas</a></li>
+            <li><a href="#galeria">Galería</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+        </ul>
+        <hr style="border-color: var(--border-color); margin: 1.5rem 0;" />
+        <p style="font-size: 0.75rem; color: var(--text-muted);">
+            Panel de estudio ADSO <br /><code>v2026.2</code>
+        </p>
+    </aside>
+
+    <div class="blog-container" id="contenedorPrincipal">
+        <header class="blog-header" id="inicio">
+            <h1><span>Tech</span>Noticias</h1>
+
+            <button class="btn-menu-toggle" id="btnMenuToggle" aria-label="Abrir menú lateral">
+                ☰ Menú
+            </button>
+
+            <nav class="nav-principal" aria-label="Navegación principal">
+                <ul>
+                    <li><a href="#noticias">Noticias</a></li>
+                    <li><a href="#ciencia">Desarrollo</a></li>
+                    <li><a href="#productos">Herramientas</a></li>
+                    <li><a href="#galeria">Galería</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main class="contenido-principal">
+            <div class="seccion-articulos">
+
+                <!-- NOTICIAS -->
+                <section id="noticias" class="ancla">
+                    <h2 style="font-size:1.3rem; margin-bottom:1rem; color:var(--text-primary); text-transform: uppercase; letter-spacing: 0.5px;">Últimas noticias</h2>
+
+                    <article class="articulo-blog">
+                        <h2>El impacto de JavaScript moderno en el rendimiento web</h2>
+                        <div class="meta">6 de octubre de 2026 · 4 min de lectura</div>
+                        <p>Las nuevas especificaciones de JavaScript y los motores de ejecución optimizados permiten compilar aplicaciones más rápido en el navegador. Conoce cómo aprovechar las características nativas sin depender de librerías pesadas.</p>
+                        <a href="#" class="leer-mas">Leer más →</a>
+                    </article>
+
+                    <article class="articulo-blog">
+                        <h2>Estrategias eficientes para control de versiones con Git</h2>
+                        <div class="meta">4 de octubre de 2026 · 5 min de lectura</div>
+                        <p>Mantener una estructura limpia en los repositorios de GitHub es vital para equipos de desarrollo. Te mostramos cómo organizar ramas, evitar conflictos complejos y documentar código de forma colaborativa.</p>
+                        <a href="#" class="leer-mas">Leer más →</a>
+                    </article>
+                </section>
+
+                <!-- DESARROLLO / CIENCIA -->
+                <section id="ciencia" class="ancla">
+                    <h2 style="font-size:1.3rem; margin:2rem 0 1rem 0; color:var(--text-primary); text-transform: uppercase; letter-spacing: 0.5px;">Desarrollo y Arquitectura</h2>
+
+                    <article class="articulo-blog">
+                        <h2>Optimización de bases de datos relacionales en SQL</h2>
+                        <div class="meta">1 de octubre de 2026 · 6 min de lectura</div>
+                        <p>El rendimiento de una aplicación web depende directamente de cómo se consultan los datos. Aprende buenas prácticas de indexación, normalización de tablas y optimización de consultas complejas en MySQL.</p>
+                        <a href="#" class="leer-mas">Leer más →</a>
+                    </article>
+
+                    <article class="articulo-blog">
+                        <h2>Automatización de flujos de trabajo con scripts de terminal</h2>
+                        <div class="meta">28 de septiembre de 2026 · 3 min de lectura</div>
+                        <p>El uso de entornos Linux y terminales personalizadas incrementa drásticamente la productividad de un programador. Descubre cómo automatizar tareas repetitivas mediante scripts y comandos rápidos.</p>
+                        <a href="#" class="leer-mas">Leer más →</a>
+                    </article>
+                </section>
+
+                <!-- HERRAMIENTAS / PRODUCTOS -->
+                <section id="productos" class="ancla">
+                    <h2 style="font-size:1.3rem; margin:2rem 0 1rem 0; color:var(--text-primary); text-transform: uppercase; letter-spacing: 0.5px;">Herramientas recomendadas</h2>
+                    <div class="contenedor-tarjetas">
+                        <div class="tarjeta">
+                            <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=400&h=300&fit=crop&crop=center" alt="Entorno de programación" loading="lazy" />
+                            <h3>Editores de Código Avanzados</h3>
+                            <p>Configuración de extensiones, temas oscuros y atajos clave para potenciar la productividad diaria.</p>
+                            <button class="btn-tarjeta">Ver detalles</button>
+                        </div>
+
+                        <div class="tarjeta">
+                            <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&h=300&fit=crop&crop=center" alt="Arquitectura de software" loading="lazy" />
+                            <h3>Sistemas de Control de Versiones</h3>
+                            <p>Herramientas y clientes gráficos para gestionar repositorios locales y remotos con eficacia.</p>
+                            <button class="btn-tarjeta">Ver detalles</button>
+                        </div>
+
+                        <div class="tarjeta">
+                            <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&h=300&fit=crop&crop=center" alt="Análisis de datos" loading="lazy" />
+                            <h3>Gestores de Bases de Datos</h3>
+                            <p>Interfaces gráficas ligeras para inspeccionar tablas, ejecutar consultas y depurar estructuras.</p>
+                            <button class="btn-tarjeta">Ver detalles</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- GALERÍA -->
+                <section id="galeria" class="ancla">
+                    <h2 style="font-size:1.3rem; margin:2rem 0 1rem 0; color:var(--text-primary); text-transform: uppercase; letter-spacing: 0.5px;">Galería de programación</h2>
+                    <div class="galeria">
+                        <div class="item-galeria">
+                            <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=400&h=300&fit=crop&crop=center" alt="Terminal y Linux" loading="lazy" />
+                            <div class="overlay">Terminal</div>
+                        </div>
+                        <div class="item-galeria">
+                            <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=300&fit=crop&crop=center" alt="Desarrollo de Software" loading="lazy" />
+                            <div class="overlay">Desarrollo</div>
+                        </div>
+                        <div class="item-galeria">
+                            <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=400&h=300&fit=crop&crop=center" alt="Pantalla de código" loading="lazy" />
+                            <div class="overlay">Código fuente</div>
+                        </div>
+                        <div class="item-galeria">
+                            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=300&fit=crop&crop=center" alt="Gráficas y analítica" loading="lazy" />
+                            <div class="overlay">Analítica</div>
+                        </div>
+                        <div class="item-galeria">
+                            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=400&h=300&fit=crop&crop=center" alt="Trabajo en equipo" loading="lazy" />
+                            <div class="overlay">Colaboración</div>
+                        </div>
+                        <div class="item-galeria">
+                            <img src="https://images.unsplash.com/photo-1537432376769-00f5c6f4c8d2?w=400&h=300&fit=crop&crop=center" alt="Hardware y servidores" loading="lazy" />
+                            <div class="overlay">Servidores</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- CONTACTO -->
+                <section id="contacto" class="ancla">
+                    <div class="formulario-contacto">
+                        <h2>Contacto</h2>
+                        <form action="#" method="POST">
+                            <div class="grupo">
+                                <label for="nombre">Nombre completo</label>
+                                <input type="text" id="nombre" name="nombre" placeholder="Ej: Juanito" required />
+                            </div>
+                            <div class="grupo">
+                                <label for="email">Correo electrónico</label>
+                                <input type="email" id="email" name="email" placeholder="correo@ejemplo.com" required />
+                            </div>
+                            <div class="grupo">
+                                <label for="mensaje">Mensaje</label>
+                                <textarea id="mensaje" name="mensaje" rows="4" placeholder="Escribe tu consulta aquí..." required></textarea>
+                            </div>
+                            <button type="submit" class="btn-enviar">Enviar mensaje</button>
+                        </form>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- ASIDE -->
+            <aside class="aside-blog">
+                <h3>Enlaces de interés</h3>
+                <ul>
+                    <li><a href="#">Guía completa de JavaScript</a></li>
+                    <li><a href="#">Fundamentos de bases de datos</a></li>
+                    <li><a href="#">Buenas prácticas en Git</a></li>
+                    <li><a href="#">Optimización de layouts CSS</a></li>
+                    <li><a href="#">Seguridad y control de accesos</a></li>
+                </ul>
+                <hr style="margin: 1.2rem 0; border-color: var(--border-color);" />
+                <p style="font-size:0.8rem; color:var(--text-secondary);">
+                    <strong>Aviso SENA</strong><br />
+                    Próxima entrega de proyectos ADSO.
+                </p>
+            </aside>
+        </main>
+
+        <footer class="blog-footer">
+            <p>
+                <strong>TechNoticias</strong> · Módulo de Prácticas y Desarrollo Web.<br />
+                © 2026 · Todos los derechos reservados.
+            </p>
+        </footer>
+    </div>
+
+    <!-- SCRIPT DE INTERACTIVIDAD MÓVIL Y ESCRITORIO -->
+    <script>
+        (function () {
+            const menuLateral = document.getElementById('menuLateral');
+            const btnToggle = document.getElementById('btnMenuToggle');
+            const closeBtn = document.getElementById('closeMenuBtn');
+            const contenedor = document.getElementById('contenedorPrincipal');
+
+            function toggleMenu(abrir) {
+                if (abrir === undefined) {
+                    const estaAbierto = menuLateral.classList.toggle('abierto');
+                    btnToggle.textContent = estaAbierto ? '✕ Cerrar' : '☰ Menú';
+                } else if (abrir) {
+                    menuLateral.classList.add('abierto');
+                    btnToggle.textContent = '✕ Cerrar';
+                } else {
+                    menuLateral.classList.remove('abierto');
+                    btnToggle.textContent = '☰ Menú';
+                }
+            }
+
+            btnToggle.addEventListener('click', function (e) {
+                e.stopPropagation();
+                toggleMenu();
+            });
+
+            closeBtn.addEventListener('click', function () {
+                toggleMenu(false);
+            });
+
+            menuLateral.querySelectorAll('a').forEach(function (enlace) {
+                enlace.addEventListener('click', function () {
+                    if (window.innerWidth < 768) {
+                        toggleMenu(false);
+                    }
+                });
+            });
+
+            window.addEventListener('resize', function () {
+                if (window.innerWidth >= 768) {
+                    menuLateral.classList.add('abierto');
+                    btnToggle.textContent = '☰ Menú';
+                    contenedor.style.marginLeft = '';
+                } else {
+                    if (!menuLateral.classList.contains('abierto')) {
+                        btnToggle.textContent = '☰ Menú';
+                    }
+                }
+            });
+
+            if (window.innerWidth >= 768) {
+                menuLateral.classList.add('abierto');
+            }
+        })();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JCGP · ADSO 3410390 · Sesiones de Estudio</title>
+    <style>
+        /* ===== ESTILOS BASE Y VARIABLES (DARK MODE MINIMALISTA) ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+        }
+
+        :root {
+            --bg-body: #121212;
+            --bg-card: #1e1e1e;
+            --bg-code: #181818;
+            --bg-demo: #252525;
+            --bg-controls: #1e1e1e;
+            --text-primary: #ffffff;
+            --text-secondary: #d4d4d4;
+            --text-muted: #888888;
+            --border-color: #333333;
+            --border-light: #444444;
+            --accent-color: #555555;
+            --accent-hover: #777777;
+            --shadow-color: rgba(0, 0, 0, 0.5);
+            --font-base: 16px;
+        }
+
+        body.light {
+            --bg-body: #f4f4f4;
+            --bg-card: #ffffff;
+            --bg-code: #eeeeee;
+            --bg-demo: #f9f9f9;
+            --bg-controls: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #444444;
+            --text-muted: #666666;
+            --border-color: #dddddd;
+            --border-light: #cccccc;
+            --accent-color: #666666;
+            --accent-hover: #333333;
+            --shadow-color: rgba(0, 0, 0, 0.08);
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-primary);
+            padding: 2rem 1rem;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            font-size: var(--font-base);
+        }
+
+        .magazine {
+            max-width: 1100px;
+            width: 100%;
+            background: var(--bg-card);
+            border-radius: 6px;
+            border-left: 6px solid var(--accent-color);
+            padding: 2.5rem;
+            box-shadow: var(--shadow-color);
+            border-top: 1px solid var(--border-color);
+            border-right: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        /* ===== BARRA DE CONTROLES SUPERIOR ===== */
+        .control-bar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            background: var(--bg-controls);
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 2rem;
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .control-group .label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .font-btn {
+            background: var(--bg-body);
+            border: 1px solid var(--border-light);
+            border-radius: 4px;
+            padding: 4px 12px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .font-btn:hover {
+            background: var(--accent-color);
+            color: #ffffff;
+        }
+
+        .theme-toggle {
+            position: relative;
+            width: 44px;
+            height: 22px;
+            background: var(--border-light);
+            border-radius: 22px;
+            cursor: pointer;
+            transition: background 0.3s;
+            flex-shrink: 0;
+        }
+
+        .theme-toggle .slider {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 18px;
+            height: 18px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+
+        body:not(.light) .theme-toggle {
+            background: var(--accent-color);
+        }
+        body:not(.light) .theme-toggle .slider {
+            transform: translateX(22px);
+        }
+
+        .theme-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* ===== PORTADA / ENCABEZADO ===== */
+        .cover {
+            text-align: center;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 2rem;
+        }
+
+        .cover .label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+        }
+
+        .cover h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .cover h1 small {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: normal;
+            color: var(--text-muted);
+            margin-top: 0.3rem;
+            text-transform: none;
+            letter-spacing: 0;
+        }
+
+        .cover .meta {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .cover .meta span {
+            background: var(--bg-demo);
+            padding: 4px 12px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            font-weight: 500;
+        }
+
+        /* ===== SISTEMA DE ACORDEÓN (SESIONES DE ESTUDIO) ===== */
+        .accordion {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .accordion-item {
+            background: var(--bg-demo);
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            transition: border-color 0.2s;
+        }
+
+        .accordion-item:hover {
+            border-color: var(--border-light);
+        }
+
+        .accordion-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.2rem 1.5rem;
+            cursor: pointer;
+            user-select: none;
+            background: transparent;
+            border: none;
+            width: 100%;
+            text-align: left;
+            color: inherit;
+        }
+
+        .accordion-header .number {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            min-width: 30px;
+        }
+
+        .accordion-header .title-group {
+            flex: 1;
+        }
+
+        .accordion-header .title-group h2 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .accordion-header .title-group .sub {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            display: block;
+            margin-top: 0.1rem;
+        }
+
+        .accordion-header .badge {
+            background: var(--bg-body);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-light);
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .accordion-header .icon-arrow {
+            font-size: 1rem;
+            color: var(--text-muted);
+            transition: transform 0.3s;
+        }
+
+        .accordion-item.open .icon-arrow {
+            transform: rotate(180deg);
+        }
+
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.3s;
+            padding: 0 1.5rem;
+            background: var(--bg-card);
+            border-top: 1px solid transparent;
+        }
+
+        .accordion-item.open .accordion-body {
+            max-height: 5000px;
+            padding: 1.5rem;
+            border-top-color: var(--border-color);
+        }
+
+        .accordion-body .content {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        .accordion-body .content p {
+            margin-bottom: 0.8rem;
+        }
+
+        .accordion-body .content code {
+            background: var(--bg-code);
+            color: var(--text-primary);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            border: 1px solid var(--border-color);
+        }
+
+        /* ===== COMPONENTES INTERNOS DE ESTUDIO ===== */
+        .modern-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            margin: 1rem 0;
+        }
+
+        .modern-table th, .modern-table td {
+            border: 1px solid var(--border-color);
+            padding: 0.8rem;
+            text-align: left;
+        }
+
+        .modern-table th {
+            background: var(--bg-body);
+            color: var(--text-primary);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .modern-table td {
+            background: var(--bg-card);
+            color: var(--text-secondary);
+        }
+
+        .note-modern {
+            background: var(--bg-body);
+            border-left: 4px solid var(--accent-color);
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--border-color);
+            border-right: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .demo-box {
+            background: var(--bg-body);
+            border-radius: 4px;
+            padding: 1.2rem;
+            border: 1px solid var(--border-color);
+            margin: 1rem 0;
+        }
+
+        .demo-box .demo-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.8rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .demo-controls {
+            display: flex;
+            gap: 8px;
+            margin-top: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .demo-controls button {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 4px;
+            padding: 6px 14px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .demo-controls button:hover, .demo-controls button.active {
+            background: var(--accent-color);
+            color: #ffffff;
+            border-color: var(--accent-color);
+        }
+
+        /* Demos de Flex / Grid */
+        .flex-demo {
+            display: flex;
+            gap: 10px;
+            background: var(--bg-card);
+            padding: 1rem;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            min-height: 80px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .flex-demo .item {
+            background: var(--bg-body);
+            border: 1px solid var(--border-light);
+            border-radius: 4px;
+            padding: 8px 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+
+        .flex-demo.column {
+            flex-direction: column;
+        }
+
+        .grid-demo {
+            display: grid;
+            gap: 8px;
+            background: var(--bg-card);
+            padding: 1rem;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .grid-demo .item {
+            background: var(--bg-body);
+            border: 1px solid var(--border-light);
+            border-radius: 4px;
+            padding: 8px;
+            text-align: center;
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.85rem;
+        }
+
+        .grid-demo.two-col {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        /* Tarjetas de posición */
+        .position-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .position-card {
+            background: var(--bg-body);
+            border-radius: 4px;
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .position-card .pos-name {
+            font-weight: 700;
+            font-family: monospace;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+        }
+
+        .position-card .pos-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        .position-card .pos-tag {
+            display: inline-block;
+            background: var(--bg-code);
+            color: var(--text-primary);
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 6px;
+            border: 1px solid var(--border-color);
+        }
+
+        .mini-demo {
+            margin-top: 8px;
+            padding: 8px;
+            background: var(--bg-card);
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            min-height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            position: relative;
+        }
+
+        /* BEM Card */
+        .bem-card {
+            background: var(--bg-body);
+            border-radius: 6px;
+            padding: 1.2rem;
+            border: 1px solid var(--border-color);
+            max-width: 350px;
+            margin: 1rem 0;
+        }
+
+        .bem-card .name {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+        }
+
+        .bem-card .role {
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .bem-card .desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin: 6px 0;
+        }
+
+        .bem-card .btn {
+            padding: 6px 16px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            border: 1px solid var(--border-light);
+            background: var(--bg-card);
+            color: var(--text-primary);
+            cursor: pointer;
+            margin-top: 6px;
+        }
+
+        .bem-card .classes {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 10px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 8px;
+            font-family: monospace;
+        }
+
+        /* Unidades de medida */
+        .units-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .units-grid .unit-card {
+            background: var(--bg-body);
+            border-radius: 4px;
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+            border-top: 4px solid var(--accent-color);
+        }
+
+        .units-grid .unit-card h4 {
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            margin-bottom: 4px;
+        }
+
+        .units-grid .unit-card .ref {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .units-demo-bar {
+            height: 24px;
+            background: var(--accent-color);
+            border-radius: 3px;
+            margin: 6px 0;
+            color: white;
+            display: flex;
+            align-items: center;
+            padding-left: 8px;
+            font-weight: 600;
+            font-size: 0.75rem;
+        }
+
+        /* Footer */
+        .footer-mag {
+            margin-top: 2.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .footer-mag strong {
+            color: var(--text-primary);
+        }
+
+        @media (max-width: 768px) {
+            .magazine { padding: 1.5rem 1rem; }
+            .position-grid { grid-template-columns: 1fr; }
+            .units-grid { grid-template-columns: 1fr; }
+            .control-bar { flex-direction: column; align-items: stretch; }
+            .control-group { justify-content: center; }
+        }
+
+        .sr-only {
+            position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <main class="magazine">
+
+        <!-- ===== BARRA DE CONTROL ===== -->
+        <div class="control-bar">
+            <div class="control-group">
+                <span class="label">Tamaño de texto:</span>
+                <button class="font-btn" onclick="changeFontSize(-1)" aria-label="Reducir fuente">A-</button>
+                <button class="font-btn" onclick="changeFontSize(1)" aria-label="Aumentar fuente">A+</button>
+            </div>
+            <div class="control-group">
+                <span class="theme-label">Tema</span>
+                <div class="theme-toggle" id="themeToggle" role="button" aria-label="Cambiar tema">
+                    <div class="slider"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== PORTADA ===== -->
+        <header class="cover">
+            <div class="label">SENA · ADSO 3410390</div>
+            <h1>Sesiones de Estudio <small>Fundamentos de Desarrollo Frontend & Arquitectura Web</small></h1>
+            <div class="meta">
+                <span>Juan Diego Ríos Giraldo</span>
+                <span>Regional Caldas</span>
+                <span>Módulo Interactivo</span>
+            </div>
+        </header>
+
+        <!-- ===== ACORDEÓN DE SESIONES DE ESTUDIO ===== -->
+        <section class="accordion" id="studyAccordion">
+
+            <!-- SESIÓN 1 -->
+            <div class="accordion-item open">
+                <button class="accordion-header" aria-expanded="true">
+                    <span class="number">01</span>
+                    <div class="title-group">
+                        <h2>Estructura Semántica y el DOM</h2>
+                        <span class="sub">Fundamentos esenciales de HTML5 y manipulación de nodos</span>
+                    </div>
+                    <span class="badge">Teoría</span>
+                    <span class="icon-arrow">▼</span>
+                </button>
+                <div class="accordion-body">
+                    <div class="content">
+                        <p>Las etiquetas semánticas comunican significado directo al navegador y a los lectores de pantalla, facilitando la accesibilidad web (Landmarks). Por el contrario, las etiquetas genéricas no aportan información estructural.</p>
+                        
+                        <table class="modern-table">
+                            <thead>
+                                <tr>
+                                    <th>Semánticas (Estructura Clara)</th>
+                                    <th>No Semánticas (Contenedores Genéricos)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;article&gt;</code>, <code>&lt;footer&gt;</code></td>
+                                    <td><code>&lt;div&gt;</code>, <code>&lt;span&gt;</code>, <code>&lt;b&gt;</code>, <code>&lt;i&gt;</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="note-modern">
+                            <strong>El DOM (Document Object Model):</strong> Es la representación en memoria que hace el navegador del documento HTML como un árbol de objetos, permitiendo que JavaScript modifique elementos, atributos y estilos en tiempo real.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SESIÓN 2 -->
+            <div class="accordion-item">
+                <button class="accordion-header" aria-expanded="false">
+                    <span class="number">02</span>
+                    <div class="title-group">
+                        <h2>Especificidad y Reset CSS</h2>
+                        <span class="sub">Resolución de conflictos de estilos y normalización</span>
+                    </div>
+                    <span class="badge">CSS Core</span>
+                    <span class="icon-arrow">▼</span>
+                </button>
+                <div class="accordion-body">
+                    <div class="content">
+                        <p>Cuando múltiples reglas CSS compiten por estilizar el mismo elemento, el navegador calcula la **especificidad** asignando un puntaje jerárquico:</p>
+                        <ul>
+                            <li>Estilos Inline: <strong>1000 puntos</strong></li>
+                            <li>Selectores por ID (<code>#id</code>): <strong>100 puntos</strong></li>
+                            <li>Selectores por Clase, Atributo o Pseudo-clase (<code>.class</code>): <strong>10 puntos</strong></li>
+                            <li>Selectores por Etiqueta o Pseudo-elemento (<code>p</code>, <code>div</code>): <strong>1 punto</strong></li>
+                        </ul>
+                        <div class="note-modern">
+                            <strong>Reset vs Normalize:</strong> Un Reset elimina por completo los márgenes y paddings por defecto de los navegadores para partir desde cero. Normalize.css estandariza los estilos manteniendo comportamientos útiles predeterminados.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SESIÓN 3 -->
+            <div class="accordion-item">
+                <button class="accordion-header" aria-expanded="false">
+                    <span class="number">03</span>
+                    <div class="title-group">
+                        <h2>El Modelo de Caja (Box Model)</h2>
+                        <span class="sub">Content, Padding, Border y Margin</span>
+                    </div>
+                    <span class="badge">Maquetación</span>
+                    <span class="icon-arrow">▼</span>
+                </button>
+                <div class="accordion-body">
+                    <div class="content">
+                        <p>Todo elemento en HTML se interpreta como una caja rectangular compuesta por capas concéntricas:</p>
+                        <ol>
+                            <li><strong>Content:</strong> El texto o imagen interior.</li>
+                            <li><strong>Padding:</strong> Espacio de relleno interno entre el contenido y el borde.</li>
+                            <li><strong>Border:</strong> La línea que envuelve el padding y el contenido.</li>
+                            <li><strong>Margin:</strong> Espacio externo que separa la caja de otros elementos vecinos.</li>
+                        </ol>
+                        <div class="note-modern">
+                            Usa siempre <code>box-sizing: border-box;</code> en tus selectores universales para evitar que el padding y los bordes sumen ancho extra al tamaño de tus cajas.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SESIÓN 4 -->
+            <div class="accordion-item">
+                <button class="accordion-header" aria-expanded="false">
+                    <span class="number">04</span>
+                    <div class="title-group">
+                        <h2>Comportamiento Display (Block, Inline, Inline-Block)</h2>
+                        <span class="sub">Control del flujo visual de los elementos</span>
+                    </div>
+                    <span class="badge">Visualización</span>
+                    <span class="icon-arrow">▼</span>
+                </button>
+                <div class="accordion-body">
+                    <div class="content">
+                        <p>La propiedad <code>display</code> define cómo se comporta un elemento dentro del flujo de la página:</p>
+                        <ul style="margin-left: 1.2rem; margin-bottom: 1rem;">
+                            <li><code>block</code>: Ocupa todo el ancho disponible y fuerza un salto de línea (ej. <code>&lt;div&gt;</code>, <code>&lt;p&gt;</code>).</li>
+                            <li><code>inline</code>: Ocupa solo el ancho de su contenido y no permite modificar ancho ni alto (ej. <code>&lt;span&gt;</code>, <code>&lt;a&gt;</code>).</li>
+                            <li><code>inline-block</code>: Se alinea en línea como un texto pero respeta propiedades de ancho, alto y márgenes.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SESIÓN 5 -->
+            <div class="accordion-item">
+                <button class="accordion-header" aria-expanded="false">
+                    <span class="number">05</span>
+                    <div class="title-group">
+                        <h2>Unidades de Medida y Sistemas de Color</h2>
+                        <span class="sub">Absolutas, relativas, HEX, RGB y HSL</span>
+                    </div>
+                    <span class="badge">Estilos</span>
+                    <span class="icon-arrow">▼</span>
+                </button>
+                <div class="accordion-body">
+                    <div class="content">
+                        <div class="units-grid">
+                            <div class="unit-card">
+                                <h4>PX (Píxeles)</h4>
+                                <span class="ref">Absoluta</span>
+                                <div class="units-demo-bar" style="width: 80%;">100px</div>
+                            </div>
+                            <div class="unit-card">
+                                <h4>REM</h4>
+                                <span class="ref">Relativa a raíz</span>
+                                <div class="units-demo-bar" style="width: 60%;">2rem</div>
+                            </div>
+                            <div class="unit-card">
+                                <h4>VW</h4>
+                                <span class="ref">Ancho de pantalla</span>
+                                <div class="units-demo-bar" style="width: 90%;">25vw</div>
+                            </div>
+                        </div>
+                        <p style="margin-top: 1rem;"><strong>Sistemas de Color:</strong> Se pueden declarar mediante palabras clave (<code>tomato</code>), códigos HEX (<code>#1e1e1e</code>), canales numéricos RGB (<code>rgb(30,30,30)</code>) o el círculo cromático HSL (Matiz, Saturación, Luminosidad).</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SESIÓN 6 -->
+            <div class="accordion-item">
+                <button class="accordion-header" aria-expanded="false">
+                    <span class="number">06</span>
+                    <div class="title-group">
+                        <h2>Posicionamiento CSS (Position)</h2>
+                        <span class="sub">Static, Relative, Absolute, Fixed y Sticky</span>
+                    </div>
+                    <span class="badge">Layout</span>
+                    <span class="icon-arrow">▼</span>
+                </button>
+                <div class="accordion-body">
+                    <div class="content">
+                        <div class="position-grid">
+                            <div class="position-card">
+                                <div class="pos-name">position: static;</div>
+                                <div class="pos-desc">Comportamiento por defecto en el flujo normal de la página. Ignora propiedades top/left.</div>
+                                <span class="pos-tag">Flujo natural</span>
+                            </div>
+                            <div class="position-card">
+                                <div class="pos-name">position: relative;</div>
+                                <div class="pos-desc">Se desplaza respecto a su posición original sin alterar el espacio que ocupaba.</div>
+                                <span class="pos-tag">Desplazamiento</span>
+                            </div>
+                            <div class="position-card">
+                                <div class="pos-name">position: absolute;</div>
+                                <div class="pos-desc">Se posiciona respecto a su ancestro posicionado más cercano, saliendo del flujo normal.</div>
+                                <span class="pos-tag">Anclado</span>
+                            </div>
+                            <div class="position-card">
+                                <div class="pos-name">position: sticky;</div>
+                                <div class="pos-desc">Alterna entre relativo y fijo según el desplazamiento (scroll) del usuario.</div>
+                                <span class="pos-tag">Dinámico</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SESIÓN 7 -->
+            <div class="accordion-item">
+                <button class="accordion-header" aria-expanded="false">
+                    <span class="number">07</span>
+                    <div class="title-group">
+                        <h2>Flexbox Interactivo</h2>
+                        <span class="sub">Contenedor flexible y alineación de ítems</span>
+                    </div>
+                    <span class="badge">Flexbox</span>
+                    <span class="icon-arrow">▼</span>
+                </button>
+                <div class="accordion-body">
+                    <div class="content">
+                        <p>Permite distribuir espacio y alinear elementos de forma eficiente en una sola dimensión (fila o columna).</p>
+                        <div class="demo-box">
+                            <div class="demo-title">Control de dirección (flex-direction)</div>
+                            <div class="flex-demo" id="flexDemoBox">
+                                <div class="item">Ítem 1</div>
+                                <div class="item">Ítem 2</div>
+                                <div class="item">Ítem 3</div>
+                            </div>
+                            <div class="demo-controls">
+                                <button class="active" onclick="setFlexDir('row')">row (Fila)</button>
+                                <button onclick="setFlexDir('column')">column (Columna)</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SESIÓN 8 -->
+            <div class="accordion-item">
+                <button class="accordion-header" aria-expanded="false">
+                    <span class="number">08</span>
+                    <div class="title-group">
+                        <h2>CSS Grid Layout</h2>
+                        <span class="sub">Diseño bidimensional en filas y columnas</span>
+                    </div>
+                    <span class="badge">Grid</span>
+                    <span class="icon-arrow">▼</span>
+                </button>
+                <div class="accordion-body">
+                    <div class="content">
+                        <p>Sistema de retícula bidimensional perfecto para maquetar estructuras completas de sitios web.</p>
+                        <div class="demo-box">
+                            <div class="demo-title">Estructura de columnas (grid-template-columns)</div>
+                            <div class="grid-demo" id="gridDemoBox">
+                                <div class="item">A</div>
+                                <div class="item">B</div>
+                                <div class="item">C</div>
+                                <div class="item">D</div>
+                                <div class="item">E</div>
+                                <div class="item">F</div>
+                            </div>
+                            <div class="demo-controls">
+                                <button class="active" onclick="setGridCols(3)">3 Columnas</button>
+                                <button onclick="setGridCols(2)">2 Columnas</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SESIÓN 9 -->
+            <div class="accordion-item">
+                <button class="accordion-header" aria-expanded="false">
+                    <span class="number">09</span>
+                    <div class="title-group">
+                        <h2>Metodología BEM (Block, Element, Modifier)</h2>
+                        <span class="sub">Buenas prácticas de nomenclatura CSS</span>
+                    </div>
+                    <span class="badge">Arquitectura</span>
+                    <span class="icon-arrow">▼</span>
+                </button>
+                <div class="accordion-body">
+                    <div class="content">
+                        <p>BEM ayuda a crear componentes reutilizables y legibles evitando la colisión de selectores mediante la estructura <code>bloque__elemento--modificador</code>.</p>
+                        <div class="bem-card">
+                            <div class="name">Perfil de Usuario</div>
+                            <div class="role">Desarrollador ADSO</div>
+                            <div class="desc">Componente modular estructurado con clases claras y mantenibles.</div>
+                            <button class="btn">Acción</button>
+                            <div class="classes">.card {} .card__title {} .card__button--primary {}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SESIÓN 10 -->
+            <div class="accordion-item">
+                <button class="accordion-header" aria-expanded="false">
+                    <span class="number">10</span>
+                    <div class="title-group">
+                        <h2>Responsive Design y Media Queries</h2>
+                        <span class="sub">Adaptabilidad móvil (Mobile First)</span>
+                    </div>
+                    <span class="badge">Responsive</span>
+                    <span class="icon-arrow">▼</span>
+                </button>
+                <div class="accordion-body">
+                    <div class="content">
+                        <p>Permiten aplicar estilos condicionales basados en el ancho de la pantalla del dispositivo.</p>
+                        <div class="note-modern">
+                            <code>@media (min-width: 768px) { ... }</code> se aplica únicamente en tablets y escritorios.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SESIÓN 11 -->
+            <div class="accordion-item">
+                <button class="accordion-header" aria-expanded="false">
+                    <span class="number">11</span>
+                    <div class="title-group">
+                        <h2>Pseudo-clases y Estados Interactivos</h2>
+                        <span class="sub">:hover, :focus, :active, :disabled</span>
+                    </div>
+                    <span class="badge">Interactividad</span>
+                    <span class="icon-arrow">▼</span>
+                </button>
+                <div class="accordion-body">
+                    <div class="content">
+                        <p>Los estados mejoran la experiencia de usuario guiando visualmente la interacción con formularios y botones.</p>
+                        <div class="states-grid">
+                            <div class="state-card">
+                                <div class="state-name">:hover (Cursor encima)</div>
+                                <button class="btn-state">Pásame el mouse</button>
+                            </div>
+                            <div class="state-card">
+                                <div class="state-name">:disabled (Desactivado)</div>
+                                <button class="btn-state" disabled>No disponible</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SESIÓN 12 -->
+            <div class="accordion-item">
+                <button class="accordion-header" aria-expanded="false">
+                    <span class="number">12</span>
+                    <div class="title-group">
+                        <h2>Buenas Prácticas y Accesibilidad</h2>
+                        <span class="sub">Optimización, rendimiento y semántica limpia</span>
+                    </div>
+                    <span class="badge">Calidad</span>
+                    <span class="icon-arrow">▼</span>
+                </button>
+                <div class="accordion-body">
+                    <div class="content">
+                        <p>Mantener una identación limpia, comentar el código complejo, usar atributos <code>alt</code> en imágenes y asegurar contraste suficiente en los textos garantiza aplicaciones web profesionales y de alta calidad técnica.</p>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ===== FOOTER ===== -->
+        <footer class="footer-mag">
+            <p><strong>Juan Diego Ríos Giraldo</strong> · Análisis y Desarrollo de Software (ADSO)</p>
+            <p style="margin-top: 4px;">SENA Regional Caldas · Ficha 3410390</p>
+        </footer>
+
+    </main>
+
+    <!-- ===== SCRIPT DE INTERACTIVIDAD ===== -->
+    <script>
+        // 1. Acordeón interactivo
+        const headers = document.querySelectorAll('.accordion-header');
+        headers.forEach(header => {
+            header.addEventListener('click', () => {
+                const item = header.parentElement;
+                const wasOpen = item.classList.contains('open');
+                
+                // Cierra todos
+                document.querySelectorAll('.accordion-item').forEach(el => {
+                    el.classList.remove('open');
+                    el.querySelector('.accordion-header').setAttribute('aria-expanded', 'false');
+                });
+
+                // Si no estaba abierto, abrirlo
+                if (!wasOpen) {
+                    item.classList.add('open');
+                    header.setAttribute('aria-expanded', 'true');
+                }
+            });
+        });
+
+        // 2. Control de Tema (Oscuro / Claro)
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('light');
+        });
+
+        // 3. Control de Tamaño de Letra
+        let currentFontSize = 16;
+        function changeFontSize(delta) {
+            currentFontSize = Math.min(20, Math.max(13, currentFontSize + (delta * 2)));
+            document.documentElement.style.setProperty('--font-base', currentFontSize + 'px');
+        }
+
+        // 4. Demos interactivas de Flex y Grid
+        function setFlexDir(dir) {
+            const box = document.getElementById('flexDemoBox');
+            box.className = `flex-demo ${dir}`;
+            event.target.parentElement.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        function setGridCols(cols) {
+            const box = document.getElementById('gridDemoBox');
+            box.className = `grid-demo ${cols === 2 ? 'two-col' : ''}`;
+            event.target.parentElement.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+/* Estilos aplicados directamente a toda la página (la etiqueta <body>) */
+body {
+    margin: 0;                   /* Elimina el margen por defecto que los navegadores le ponen al body */
+    padding: 0;                  /* Elimina el relleno por defecto */
+    
+    /* Nota sobre colores de fondo duplicados: */
+    background-color: rgb(101, 187, 16); /* Primero define un verde vivo, pero... */
+    background-color: #f3f2f2;           /* ...esta línea sobrescribe la anterior y deja un gris muy claro como color base */
+    
+    /* Imagen de fondo avanzada codificada en texto (Data URI SVG) */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2000 1500'... (código SVG largo)...");
+    
+    background-attachment: fixed;  /* Fija la imagen de fondo para que no se mueva cuando el usuario haga scroll en la página */
+    background-repeat: no-repeat;  /* Evita que la imagen del fondo se repita en mosaico */
+    background-size: cover;        /* Estira la imagen para que cubra toda la pantalla sin deformar su proporción */
+
+    /* Propiedades de Flexbox para organizar los elementos hijos hacia abajo y centrados */
+    display: flex;                 /* Convierte al body en un contenedor flexible */
+    flex-direction: column;        /* Ordena todos los elementos internos uno debajo del otro (en columna) */
+    align-items: center;           /* Centra horizontalmente todos los elementos dentro del body */
+}
+
+/* Estilos aplicados a todas las etiquetas <section> que estén dentro de la página */
+section {
+    background-color: rgba(246, 247, 249, 0.952); /* Fondo casi blanco con una ligera transparencia del 95% */
+    color: rgb(2, 1, 4);                          /* Color de texto principal casi negro para que contraste bien */
+    font-weight: 100;                             /* Hace que la letra sea muy fina o delgada (light) */
+    border-radius: 1rem;                          /* Redondea las esquinas de la sección con un radio de 1 "rem" */
+    margin: 1rem;                                 /* Añade un espacio externo de 1 "rem" alrededor de toda la sección */
+    border: 2px solid yellowgreen;                /* Dibuja un borde sólido de 2 píxeles de grosor con un color verde lima (yellowgreen) */
+    text-align: center;                           /* Centra todo el texto que esté dentro de la sección */
+}

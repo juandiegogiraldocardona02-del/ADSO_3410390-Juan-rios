@@ -1,0 +1,389 @@
+/* ==========================================================================
+   HOJA DE ESTILOS CSS - TALLER COMPLETO (MODO OSCURO - AZUL CLARO / CYAN)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   PUNTO 4: Reset CSS Básico (Universal Box-Sizing)
+   -------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Estilos de maquetación general */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  background-color: #121212 !important;
+  color: #e0e0e0 !important;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* FORZADO DE COLOR EN TODOS LOS TÍTULOS (H1, H2, H3, H4, H5, H6) */
+h1, h2, h3, h4, h5, h6 {
+  color: #38bdf8 !important; /* Azul Claro / Cyan */
+  font-weight: 700;
+}
+
+/* Menú de navegación rápida */
+nav {
+  background-color: #1e1e1e !important;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  border: 1px solid #2d2d2d !important;
+}
+
+nav ul {
+  display: flex;
+  gap: 15px;
+  list-style: none;
+  flex-wrap: wrap;
+}
+
+nav a {
+  text-decoration: none;
+  color: #38bdf8 !important; /* Azul Claro / Cyan */
+  font-weight: 600;
+}
+
+nav a:hover {
+  text-decoration: underline;
+  color: #7dd3fc !important;
+}
+
+/* Cajas de teoría */
+.articulo-teorico {
+  background-color: #1e1e1e !important;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  border: 1px solid #2d2d2d !important;
+}
+
+.articulo-teorico h2 {
+  color: #38bdf8 !important; /* Azul Claro / Cyan */
+  border-bottom: 2px solid #0284c7 !important;
+  padding-bottom: 6px;
+  margin-bottom: 12px;
+}
+
+.tabla-comparativa {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 15px 0;
+}
+
+.tabla-comparativa th, 
+.tabla-comparativa td {
+  border: 1px solid #333333 !important;
+  padding: 10px;
+  text-align: left;
+}
+
+.tabla-comparativa th {
+  background-color: #2a2a2a !important;
+  color: #38bdf8 !important; /* Azul Claro / Cyan */
+}
+
+/* --------------------------------------------------------------------------
+   PUNTO 7: Diagrama visual en CSS del Box Model (Modelo de Caja)
+   -------------------------------------------------------------------------- */
+.diagrama-box-model {
+  background-color: #0369a1 !important;
+  color: #ffffff !important;
+  padding: 15px;
+  border: 2px dashed #38bdf8 !important;
+  text-align: center;
+  font-weight: bold;
+}
+
+.diagrama-border {
+  background-color: #0284c7 !important;
+  color: #ffffff !important;
+  padding: 15px;
+  border: 2px solid #7dd3fc !important;
+}
+
+.diagrama-padding {
+  background-color: #0e7490 !important;
+  color: #ffffff !important;
+  padding: 15px;
+}
+
+.diagrama-content {
+  background-color: #155e75 !important;
+  padding: 15px;
+  color: #ffffff !important;
+}
+
+/* --------------------------------------------------------------------------
+   PUNTO 9: Demostración de display block, inline e inline-block
+   -------------------------------------------------------------------------- */
+.demo-display {
+  padding: 10px;
+  background-color: #2a2a2a !important;
+  border-radius: 6px;
+  margin: 10px 0;
+}
+
+.box-block {
+  display: block;
+  background-color: #0284c7 !important;
+  color: white !important;
+  padding: 8px;
+  margin: 5px 0;
+}
+
+.box-inline {
+  display: inline;
+  background-color: #0d9488 !important;
+  color: white !important;
+  padding: 8px;
+  margin: 5px;
+}
+
+.box-inline-block {
+  display: inline-block;
+  width: 120px;
+  height: 45px;
+  background-color: #0284c7 !important;
+  color: white !important;
+  padding: 8px;
+  margin: 5px;
+  text-align: center;
+}
+
+/* --------------------------------------------------------------------------
+   PUNTO 13: HERRAMIENTA INTERACTIVA (AZUL CLARO & BARRA MULTICOLOR)
+   -------------------------------------------------------------------------- */
+.herramienta-container {
+  background-color: #1e1e1e !important;
+  border: 1px solid #333333 !important;
+  padding: 20px;
+  border-radius: 10px;
+  margin: 25px 0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.herramienta-container h2 {
+  color: #38bdf8 !important; /* Azul Claro / Cyan */
+  margin-bottom: 10px;
+}
+
+.panel-controles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 15px;
+  background: #262626 !important;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #3a3a3a !important;
+  margin-top: 15px;
+}
+
+.grupo-control {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.grupo-control label {
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: #cccccc !important;
+}
+
+.badge {
+  color: #38bdf8 !important; /* Azul Claro */
+  font-weight: bold;
+}
+
+/* Estilos para los Sliders / Rangos */
+.slider {
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  width: 100%;
+  height: 10px;
+  border-radius: 5px;
+  background-color: #444444 !important;
+  outline: none;
+  cursor: pointer;
+  margin-top: 6px;
+}
+
+/* BARRA ARCOÍRIS MULTICOLOR */
+.slider-color {
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  background: linear-gradient(
+    to right, 
+    #ff0000 0%, 
+    #ffff00 17%, 
+    #00ff00 33%, 
+    #00ffff 50%, 
+    #0000ff 67%, 
+    #ff00ff 83%, 
+    #ff0000 100%
+  ) !important;
+}
+
+/* Botón deslizador (Thumb) - Webkit */
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #ffffff !important;
+  border: 2px solid #111111 !important;
+  cursor: pointer;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Botón deslizador (Thumb) - Firefox */
+.slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #ffffff !important;
+  border: 2px solid #111111 !important;
+  cursor: pointer;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+}
+
+.grupo-control select {
+  padding: 8px;
+  border: 1px solid #444444 !important;
+  border-radius: 4px;
+  background-color: #1a1a1a !important;
+  color: #ffffff !important;
+  outline: none;
+}
+
+/* Contenedor y Previsualización del cuadro dinámico */
+.caja-preview-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  background-color: #121212 !important;
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 20px;
+  border: 1px solid #2a2a2a !important;
+}
+
+#caja-interactiva {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+  min-height: 120px;
+  width: 250px;
+  background-color: hsl(180, 80%, 45%);
+  transition: width 0.05s ease;
+}
+
+#texto-codigo-css {
+  background-color: rgba(0, 0, 0, 0.45) !important;
+  color: #ffffff !important;
+  padding: 10px 15px;
+  border-radius: 6px;
+  font-family: monospace;
+  font-size: 0.9rem;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  backdrop-filter: blur(4px);
+}
+
+/* --------------------------------------------------------------------------
+   PUNTOS 14 AL 23: SECCIÓN PRÁCTICAS Y SELECTORES
+   -------------------------------------------------------------------------- */
+section h1 {
+  color: #38bdf8 !important; /* Azul Claro / Cyan */
+  font-size: 1.6rem;
+  margin-bottom: 8px;
+}
+
+section h2 {
+  color: #38bdf8 !important; /* Azul Claro / Cyan */
+  font-size: 1.2rem;
+  margin-bottom: 12px;
+}
+
+p {
+  margin-bottom: 10px;
+}
+
+hr {
+  border: 0;
+  height: 1px;
+  background-color: #333333 !important;
+  margin: 20px 0;
+}
+
+/* PUNTO 21: Selector por ID (#caja-principal) */
+#caja-principal {
+  background-color: #2a2a2a !important;
+  color: #ffffff !important;
+  padding: 15px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  border-left: 4px solid #38bdf8 !important; /* Azul Claro */
+}
+
+/* PUNTO 22: Selector por Clase (.caja-secundaria) */
+.caja-secundaria {
+  background-color: #1e1e1e !important;
+  border: 2px solid #38bdf8 !important; /* Azul Claro */
+  color: #e0e0e0 !important;
+  padding: 15px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+}
+
+/* PUNTO 23: Selector por Clase (.tarjeta) - Box Model */
+.tarjeta {
+  background-color: #1e1e1e !important;
+  padding: 20px;      /* Padding interno de 20px */
+  margin: 15px 0;     /* Margin externo de 15px */
+  border: 1px solid #333333 !important;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Punto 17: Lista ordenada */
+.lista-favoritos {
+  background-color: #1e1e1e !important;
+  padding: 15px 30px;
+  border-radius: 8px;
+  border: 1px solid #2d2d2d !important;
+}
+
+.lista-favoritos ol {
+  padding-left: 20px;
+}
+
+/* Punto 18: Enlaces */
+a {
+  color: #38bdf8 !important; /* Azul Claro */
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* Punto 19: Imágenes */
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 6px;
+  display: block;
+}

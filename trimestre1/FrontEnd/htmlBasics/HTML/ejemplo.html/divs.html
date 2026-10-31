@@ -1,0 +1,310 @@
+<!DOCTYPE html> <!-- Indica que la pagina es HTML5 -->
+<html lang="es"> <!-- indica el idioma de la página -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <!-- Título de la página, para identificar el documento en el navegador -->
+    <title>Layout Semántico</title>
+    
+    <style>
+        /* ---------- VARIABLES DE DISEÑO ---------- */
+        /* Paleta de colores para mantener consistencia en todo el código */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Colores base: grises oscuros y subtonos claros */
+            --fondo-principal: #121212;
+            --fondo-caja: #1e1e1e;
+            --texto-principal: #e0e0e0;
+            --texto-secundario: #9e9e9e;
+            --color-acento: #d4d4d4; 
+            --borde-caja: #2e2e2e;
+            
+            /* Sombras suaves para dar jerarquía visual sin saturar */
+            --sombra-suave: 0 4px 12px rgba(0, 0, 0, 0.4);
+            --sombra-hover: 0 10px 25px rgba(0, 0, 0, 0.6);
+            
+            /* Bordes redondeados estándar */
+            --radio-bordes: 12px;
+            
+            /* Familia tipográfica, optimizada para pantallas modernas */
+            --fuente-principal: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        /* Configuración del cuerpo (body) del documento */
+        body {
+            background-color: var(--fondo-principal);
+            font-family: var(--fuente-principal);
+            color: var(--texto-principal);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem;
+            line-height: 1.6;
+        }
+
+        /* Contenedor principal que envuelve toda la estructura del layout */
+        .contenedor-principal {
+            max-width: 900px;
+            width: 100%;
+            background: var(--fondo-principal);
+            border-radius: var(--radio-bordes);
+            padding: 3rem;
+            transition: all 0.3s ease;
+        }
+
+        /* Estilo base para todas las cajas semánticas del layout */
+        .caja-semantica {
+            background: var(--fondo-caja);
+            border: 1px solid var(--borde-caja);
+            border-radius: var(--radio-bordes);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+            box-shadow: var(--sombra-suave);
+        }
+
+        /* Efecto al pasar el cursor: levanta ligeramente la caja para indicar interactividad */
+        .caja-semantica:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--sombra-hover);
+            border-color: #555555;
+        }
+
+        /* Encabezado principal (Header) */
+        .encabezado-interactivo {
+            text-align: center;
+            border-bottom: 3px solid var(--color-acento);
+            cursor: pointer;
+        }
+
+        .encabezado-interactivo h1 {
+            font-size: 1.8rem;
+            font-weight: 300;
+            letter-spacing: -0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .encabezado-interactivo p {
+            color: var(--texto-secundario);
+            font-size: 1rem;
+        }
+
+        /* Contador de interacciones para practicar JavaScript básico */
+        .contador-clicks {
+            display: inline-block;
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            background: #2a2a2a;
+            color: var(--texto-principal);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-weight: 500;
+            border: 1px solid var(--borde-caja);
+        }
+
+        /* Animación simple para dar retroalimentación visual al hacer clic */
+        .animacion-pulso {
+            animation: animacionLatido 0.4s ease;
+        }
+
+        @keyframes animacionLatido {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); color: #ffffff; }
+            100% { transform: scale(1); }
+        }
+
+        /* Barra de navegación (Nav) usando Flexbox */
+        nav.caja-semantica {
+            text-align: center;
+            font-weight: 500;
+            color: var(--color-acento);
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        /* Contenedor de sección (Section) usando CSS Grid para dividir en dos columnas */
+        .layout-dividido {
+            display: grid;
+            grid-template-columns: 2fr 1fr; /* Asigna más espacio al artículo que al aside */
+            gap: 1.5rem;
+        }
+
+        /* Tipografía para los títulos dentro del artículo y aside */
+        .articulo-principal h2, .barra-lateral h3 {
+            font-weight: 400;
+            margin-bottom: 1rem;
+            color: var(--color-acento);
+        }
+
+        .articulo-principal p {
+            color: var(--texto-secundario);
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        /* Estilos para listas dentro del aside */
+        .barra-lateral ul {
+            list-style: none;
+            color: var(--texto-secundario);
+            font-size: 0.9rem;
+        }
+
+        .barra-lateral li {
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--borde-caja);
+        }
+
+        .barra-lateral li::before {
+            content: "- ";
+            color: var(--color-acento);
+            font-weight: bold;
+        }
+
+        /* Pie de página (Footer), diseñado para ser sutil y no competir visualmente */
+        footer.caja-semantica {
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--texto-secundario);
+            margin-bottom: 0;
+            border: none;
+            background: transparent;
+            box-shadow: none;
+        }
+
+        /* Diseño responsivo para adaptarse a pantallas pequeñas */
+        @media (max-width: 768px) {
+            .contenedor-principal {
+                padding: 1.5rem;
+            }
+            .layout-dividido {
+                grid-template-columns: 1fr; /* Colapsa el grid a una sola columna */
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Contenedor principal que agrupa todo el layout semántico -->
+    <main class="contenedor-principal">
+
+        <!-- HEADER: Utilizado para introducir la página o sección. Incluye interactividad con JS -->
+        <header class="caja-semantica encabezado-interactivo" id="headerInteractivo" aria-label="Encabezado principal interactivo">
+            <h1>Header: Encabezado Principal</h1>
+            <p>Contenedor interactivo en el que puede ir el contenido principal.</p>
+            
+            <div class="contador-clicks">
+                <span id="iconoInteraccion"> + </span> 
+                Interacciones registradas: <span id="conteoAcciones">0</span>
+            </div>
+        </header>
+
+        <!-- NAV: Utilizado exclusivamente para enlaces de navegación principal -->
+        <nav class="caja-semantica" aria-label="Navegación principal">
+            <span>Enlace Nav 1</span> <!--los nav son links internos a secciones de la misma página-->
+            <a href="https://www.youtube.com/watch?v=QDia3e12czc&autoplay=1"> Abrir en la misma pestaña</a>
+            <span>Enlace Nav 2</span>
+        </nav>
+
+        <!-- SECTION: Utilizado para agrupar contenido temáticamente relacionado -->
+        <section class="layout-dividido" aria-label="Sección de contenido estructurado">
+            
+            <!-- ARTICLE: Utilizado para contenido independiente y autónomo que tiene sentido por sí solo -->
+            <article class="caja-semantica articulo-principal" aria-label="Artículo principal">
+                <h2>Article: Contenido Principal</h2>
+                <p>La etiqueta article representa una composición autónoma en un documento. Debe tener sentido por sí misma y ser posible distribuirla o reutilizarla independientemente.</p>
+                <p>En este layout, ocupa la mayor parte del espacio gracias a la configuración de CSS Grid (2fr).</p>
+            </article>
+
+            <!-- ASIDE: Utilizado para contenido tangencialmente relacionado con el contenido a su alrededor -->
+            <aside class="caja-semantica barra-lateral" aria-label="Contenido complementario">
+                <h3>Aside: Info Extra</h3>
+                <ul>
+                    <li>Para abrir en una nueva pestaña se usa el atributo target="_blank"</li>
+                    <li>Cada enlace puede tener su propio comportamiento</li>
+                    <li>HTML basado en etiquetas semánticas</li>
+                </ul>
+            </aside>
+
+        </section>
+
+        <!-- FOOTER: Utilizado para información sobre el autor, derechos de autor o enlaces legales -->
+        <footer class="caja-semantica" aria-label="Pie de página">
+            Footer: Área para metadatos del documento o derechos de autor al final de la pagina.
+        </footer>
+
+    </main>
+
+    <!-- Script para estudiar cómo manipular el DOM y usar LocalStorage -->
+    <script>
+        // Función anónima autoejecutable para no contaminar el scope global
+        (function() {
+            // Selección de elementos del DOM
+            const headerElemento = document.getElementById('headerInteractivo');
+            const iconoElemento = document.getElementById('iconoInteraccion');
+            const textoConteoElemento = document.getElementById('conteoAcciones');
+            
+            // Inicialización de variable de estado
+            let contadorInteracciones = 0;
+            
+            // Intento de recuperar los datos almacenados previamente en el navegador
+            try {
+                const datosGuardados = localStorage.getItem('estudioLayoutContador');
+                if (datosGuardados !== null) {
+                    contadorInteracciones = parseInt(datosGuardados, 10);
+                }
+            } catch(e) { 
+                // Manejo de error silencioso si localStorage no está disponible
+            }
+            
+            // Función para actualizar el DOM y persistir el dato
+            function sincronizarEstado() {
+                if (textoConteoElemento) textoConteoElemento.innerText = contadorInteracciones;
+                try {
+                    localStorage.setItem('estudioLayoutContador', contadorInteracciones);
+                } catch(e) {}
+            }
+            
+            // Función para ejecutar la animación CSS reiniciando la clase
+            function ejecutarAnimacion() {
+                if (!iconoElemento) return;
+                iconoElemento.classList.remove('animacion-pulso');
+                void iconoElemento.offsetWidth; // Reflow forzado para reiniciar la animación
+                iconoElemento.classList.add('animacion-pulso');
+                iconoElemento.innerText = '*'; 
+                
+                // Restauración del icono original después de la duración de la animación CSS
+                setTimeout(() => {
+                    iconoElemento.classList.remove('animacion-pulso');
+                    iconoElemento.innerText = '+';
+                }, 400);
+            }
+            
+            // Manejador de eventos principal
+            function procesarClic() {
+                contadorInteracciones++; 
+                sincronizarEstado(); 
+                ejecutarAnimacion(); 
+            }
+            
+            // Asignación de Event Listener al header si existe en el DOM
+            if (headerElemento) {
+                headerElemento.addEventListener('click', procesarClic);
+            }
+            
+            // Llamado a la función de sincronización al cargar la página para mostrar el estado inicial
+            sincronizarEstado();
+        })();
+    </script>
+</body>
+
+</html>

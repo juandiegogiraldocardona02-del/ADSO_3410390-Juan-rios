@@ -1,0 +1,43 @@
+/* 
+  NOTA IMPORTANTE DE SINTAXIS: 
+  - Si es una etiqueta HTML (como h3), va directo el nombre.
+  - Si es una clase (como caja, tarjeta), debe llevar un punto adelante (ej: .caja).
+  - Si es un ID, debe llevar un numeral (ej: #caja).
+*/
+
+/* Estilo para elementos o clases llamadas "caja" */
+.caja {
+    background-color: black; /* Pone el fondo de color negro */
+    color: black;            /* Pone el texto de color negro (ojo: si el fondo y el texto son negros, no se va a leer nada) */
+    width: 10px;             /* Define un ancho fijo de 10 píxeles */
+}
+
+/* Estilo que afecta a todas las etiquetas <h3> de la página */
+h3 {
+    color: rgb(10, 84, 84);  /* Define el color del texto usando el modelo RGB (un tono verde azulado oscuro) */
+    margin-top: 6rem;        /* Agrega un espacio grande de separación hacia arriba de 6 "rems" (el rem se basa en la letra base del documento) */
+}
+
+/* Bloque comentado: El navegador IGNORA todo lo que esté dentro de /* ... */
+.Gracias {
+   /* 
+      Este color rojo y fondo marrón están desactivados porque 
+      están comentados. Si quisieras usarlos, tendrías que 
+      borrar las barras y los asteriscos de los lados.
+   */
+   /* color: rgb(221, 59, 59); */
+    /* background-color: brown; */
+}
+
+/* Estilo para elementos o clases llamadas "caja-secundaria" */
+.caja-secundaria{
+    border: 2px solid rgb(6, 6, 60); /* Crea un borde alrededor de la caja de 2 píxeles de ancho, sólido y de color azul muy oscuro */
+    padding: 5%;                      /* Añade un espacio de relleno INTERNO del 5% en todos los lados de la caja */
+    margin-top: 10px;                 /* Añade un margen EXTERNO solo hacia arriba de 10 píxeles */
+}
+
+/* Estilo para elementos o clases llamadas "tarjeta" */
+.tarjeta{
+    padding: 20px; /* Añade 20 píxeles de espacio interno en todos los lados (arriba, abajo, izquierda y derecha) */
+    margin: 15px;  /* Añade 15 píxeles de separación externa alrededor de toda la tarjeta con respecto a otros elementos */
+}

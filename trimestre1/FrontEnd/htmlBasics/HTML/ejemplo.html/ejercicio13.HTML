@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modelador de Cubo Minimalista</title>
+    <style>
+        /* === ESTILOS BASE Y MINIMALISTAS (DARK MODE) === */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+        }
+
+        /* Fondo principal oscuro */
+        body {
+            background-color: #121212;
+            color: #d4d4d4;
+            padding: 2rem 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Contenedor general */
+        .app-container {
+            max-width: 900px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            background-color: #1e1e1e;
+            padding: 2.5rem;
+            border-radius: 6px;
+            border-left: 6px solid #4a4a4a;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Títulos */
+        h1 {
+            font-size: 1.5rem;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1.5rem;
+            grid-column: 1 / -1;
+            border-bottom: 1px solid #444444;
+            padding-bottom: 0.5rem;
+        }
+
+        /* Panel de controles */
+        .controles {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .grupo-control {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        label {
+            font-size: 0.85rem;
+            color: #a0a0a0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Selector de unidad */
+        .selector-opciones {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-opcion {
+            flex: 1;
+            background-color: #2a2a2a;
+            border: 1px solid #444444;
+            color: #a0a0a0;
+            padding: 0.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+        }
+
+        .btn-opcion.activo {
+            background-color: #4a4a4a;
+            color: #ffffff;
+            border-color: #ffffff;
+        }
+
+        /* Sliders */
+        input[type="range"] {
+            width: 100%;
+            accent-color: #888888;
+            cursor: pointer;
+        }
+
+        /* Input de texto único para código de color manual */
+        .input-manual {
+            width: 100%;
+            background-color: #2a2a2a;
+            border: 1px solid #444444;
+            color: #ffffff;
+            padding: 0.6rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            text-align: center;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .input-manual:focus {
+            border-color: #888888;
+        }
+
+        /* Panel de vista previa */
+        .vista-previa {
+            background-color: #121212;
+            border-radius: 6px;
+            border: 1px solid #333333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 300px;
+            position: relative;
+            overflow: hidden;
+            padding: 1rem;
+        }
+
+        /* El Cubo */
+        #cubo {
+            width: 150px;
+            height: 150px;
+            background-color: #a0a0a0;
+            border-radius: 4px;
+            transition: width 0.1s ease, height 0.1s ease, background-color 0.1s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        /* Adaptabilidad para móviles */
+        @media (max-width: 768px) {
+            .app-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <h1>Modelador de Cubo Minimalista</h1>
+
+        <!-- CONTROLES -->
+        <div class="controles">
+            
+            <!-- Selector de Unidad de Tamaño -->
+            <div class="grupo-control">
+                <label>Unidad de medida</label>
+                <div class="selector-opciones">
+                    <button class="btn-opcion activo" onclick="cambiarUnidad('px')">Píxeles (px)</button>
+                    <button class="btn-opcion" onclick="cambiarUnidad('%')">Porcentaje (%)</button>
+                </div>
+            </div>
+
+            <!-- Control de Tamaño -->
+            <div class="grupo-control">
+                <label>Tamaño del Cubo: <span id="valorTexto">150px</span></label>
+                <input type="range" id="sliderTamaño" min="50" max="250" value="150" oninput="actualizarTamaño(this.value)">
+            </div>
+
+            <!-- Control de Color por Barra -->
+            <div class="grupo-control">
+                <label>Barra de Color</label>
+                <input type="range" id="sliderColor" min="0" max="360" value="0" oninput="actualizarColorPorBarra(this.value)">
+            </div>
+
+            <!-- Entrada Manual de Color (Campo Único) -->
+            <div class="grupo-control">
+                <label>Codigo de color escrito manualmente (Ej: rgb o el color en inglés)</label>
+                <input type="text" id="inputCodigoColor" class="input-manual" value="#a0a0a0" oninput="actualizarColorManual(this.value)" placeholder="#a0a0a0">
+            </div>
+
+        </div>
+
+        <!-- VISTA PREVIA -->
+        <div class="vista-previa">
+            <div id="cubo"></div>
+        </div>
+    </div>
+
+    <!-- SCRIPT -->
+    <script>
+        let unidadActual = 'px';
+
+        function cambiarUnidad(unidad) {
+            unidadActual = unidad;
+            
+            const botones = document.querySelectorAll('.selector-opciones .btn-opcion');
+            botones.forEach(btn => btn.classList.remove('activo'));
+            event.target.classList.add('activo');
+
+            const slider = document.getElementById('sliderTamaño');
+            if (unidad === '%') {
+                slider.min = 20;
+                slider.max = 90;
+                slider.value = 50;
+            } else {
+                slider.min = 50;
+                slider.max = 250;
+                slider.value = 150;
+            }
+            
+            actualizarTamaño(slider.value);
+        }
+
+        function actualizarTamaño(valor) {
+            const cubo = document.getElementById('cubo');
+            const texto = document.getElementById('valorTexto');
+
+            cubo.style.width = valor + unidadActual;
+            cubo.style.height = valor + unidadActual;
+            texto.innerText = valor + unidadActual;
+        }
+
+        function actualizarColorPorBarra(matiz) {
+            const cubo = document.getElementById('cubo');
+            const colorHSL = `hsl(${matiz}, 50%, 60%)`;
+            cubo.style.backgroundColor = colorHSL;
+
+            // Sincronizo el valor con el campo de texto manual
+            document.getElementById('inputCodigoColor').value = colorHSL;
+        }
+
+        function actualizarColorManual(codigo) {
+            const cubo = document.getElementById('cubo');
+            cubo.style.backgroundColor = codigo;
+        }
+    </script>
+</body>
+</html>

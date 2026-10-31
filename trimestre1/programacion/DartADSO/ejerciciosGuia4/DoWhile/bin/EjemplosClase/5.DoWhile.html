@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADSO Bancaria </title>
+    <style>
+        /* === Mismos estilos (sin cambios) === */
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background: linear-gradient(135deg, #0b2a4a, #1b4f8b); min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        .container { background: #ffffff; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.5); width: 100%; max-width: 650px; padding: 30px 25px; transition: 0.3s; }
+        h1 { text-align: center; color: #678be6; font-weight: 300; letter-spacing: 1px; margin-bottom: 20px; border-bottom: 2px solid #e0e7ef; padding-bottom: 15px; }
+        .login-box { display: flex; flex-direction: column; gap: 15px; }
+        .login-box label { font-weight: 600; color: #1b4f8b; }
+        .login-box input { padding: 12px 15px; border: 1px solid #ccd9e9; border-radius: 8px; font-size: 16px; transition: 0.2s; }
+        .login-box input:focus { border-color: #1b4f8b; box-shadow: 0 0 0 3px rgba(27,79,139,0.2); outline: none; }
+        .btn { background: #0965cf; color: rgb(252, 252, 252); border: none; padding: 12px 20px; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; transition: background 0.2s, transform 0.1s; }
+        .btn:hover { background: #0e3a66; }
+        .btn:active { transform: scale(0.97); }
+        .btn-success { background: #28a745; }
+        .btn-success:hover { background: #1e7e34; }
+        .btn-danger { background: #dc3545; }
+        .btn-danger:hover { background: #b02a37; }
+        .btn-secondary { background: #6c757d; }
+        .btn-secondary:hover { background: #5a6268; }
+        .btn-block { width: 100%; margin-top: 10px; }
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0; }
+        .menu-grid .btn { padding: 16px 10px; font-size: 15px; border-radius: 12px; background: #f0f4fa; color: #1b4f8b; border: 1px solid #d6e0ec; }
+        .menu-grid .btn:hover { background: #dae3f0; border-color: #1b4f8b; }
+        .seccion { display: none; margin-top: 20px; padding: 20px 0; border-top: 1px solid #e0e7ef; }
+        .seccion.active { display: block; }
+        .seccion h2 { font-size: 20px; color: #0b2a4a; margin-bottom: 15px; }
+        .seccion p { font-size: 18px; background: #f8faff; padding: 15px; border-radius: 10px; border-left: 5px solid #1b4f8b; }
+        .seccion label { font-weight: 600; display: block; margin-top: 12px; margin-bottom: 5px; color: #1b4f8b; }
+        .seccion input, .seccion select { width: 100%; padding: 12px 15px; border: 1px solid #ccd9e9; border-radius: 8px; font-size: 16px; margin-bottom: 5px; }
+        .seccion input:focus, .seccion select:focus { border-color: #1b4f8b; box-shadow: 0 0 0 3px rgba(27,79,139,0.2); outline: none; }
+        .mensaje { padding: 12px 15px; border-radius: 8px; margin: 10px 0; font-weight: 500; display: none; }
+        .mensaje.exito { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; display: block; }
+        .mensaje.error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; display: block; }
+        .mensaje.info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; display: block; }
+        .acciones { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 15px; }
+        .acciones .btn { flex: 1; min-width: 100px; }
+        #saldoMonto { font-weight: 700; color: #1b4f8b; }
+        .footer { text-align: center; margin-top: 20px; color: #7a8ba3; font-size: 13px; }
+        .pin-generado { background: #fff3cd; border: 1px solid #ffc107; padding: 10px; border-radius: 8px; font-weight: bold; font-size: 1.2rem; text-align: center; margin: 10px 0; }
+        .usuario-label { font-weight: 600; color: #1b4f8b; display: block; text-align: center; margin-bottom: 10px; }
+        @media (max-width: 480px) { .container { padding: 20px 15px; } .menu-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+<div class="container" id="app">
+    <h1>🏦 Adso Bancaria</h1>
+
+    <!-- ========= LOGIN ========= -->
+    <div id="loginSection">
+        <div class="login-box">
+            <label>Usuario</label>
+            <input type="text" id="loginUser" placeholder="admin" value="admin">
+            <label>Contraseña</label>
+            <input type="password" id="loginPass" placeholder="1234" value="1234">
+            <button class="btn btn-block" id="btnLogin">Iniciar Sesión</button>
+            <div id="loginError" class="mensaje error" style="display:none;">Credenciales incorrectas</div>
+        </div>
+    </div>
+
+    <!-- ========= MENÚ PRINCIPAL========= -->
+    <div id="menuSection" style="display:none;">
+        <div class="usuario-label">👤 <span id="usuarioNombre">admin</span></div>
+        <div class="menu-grid">
+            <button class="btn" data-opcion="1">💰 Consultar Saldo</button>
+            <button class="btn" data-opcion="2">📥 Ingresar Fondos</button>
+            <button class="btn" data-opcion="3">🏧 Realizar Retiro</button>
+            <button class="btn" data-opcion="4">📱 Recarga Celular</button>
+            <button class="btn" data-opcion="5">🔄 Transferencia</button>
+            <button class="btn" data-opcion="6">🚪 Salir</button>
+        </div>
+        <div id="mensajeGlobal" class="mensaje"></div>
+    </div>
+
+    <!-- ========= SECCIONES DE ACCIONES ========= -->
+    <!-- 1. Consultar Saldo -->
+    <div id="seccion1" class="seccion">
+        <h2>💰 Consultar Saldo</h2>
+        <p>Su saldo actual es: <span id="saldoMostrar">$0.00</span></p>
+        <button class="btn btn-secondary" onclick="volverMenu()">Volver al Menú</button>
+    </div>
+
+    <!-- 2. Ingresar Fondos -->
+    <div id="seccion2" class="seccion">
+        <h2>📥 Ingresar Fondos</h2>
+        <label>Monto a ingresar</label>
+        <input type="number" id="montoIngresar" placeholder="Monto (mayor a 0)" min="0.01" step="0.01">
+        <button class="btn btn-success" id="btnIngresar">Ingresar</button>
+        <div id="msgIngresar" class="mensaje"></div>
+        <button class="btn btn-secondary" onclick="volverMenu()">Volver al Menú</button>
+    </div>
+
+    <!-- 3. Realizar Retiro (con forma y PIN) -->
+    <div id="seccion3" class="seccion">
+        <h2>📤 Realizar Retiro</h2>
+        <label>Forma de retiro</label>
+        <select id="formaRetiro">
+            <option value="corresponsal">Corresponsal bancario</option>
+            <option value="cajero">Cajero automático</option>
+        </select>
+        <label>Monto a retirar</label>
+        <input type="number" id="montoRetirar" placeholder="Monto (mayor a 0)" min="0.01" step="0.01">
+        <button class="btn btn-danger" id="btnRetirar">Retirar</button>
+        <div id="msgRetirar" class="mensaje"></div>
+        <div id="pinRetiro" class="pin-generado" style="display:none;"></div>
+        <button class="btn btn-secondary" onclick="volverMenu()">Volver al Menú</button>
+    </div>
+
+    <!-- 4. Recarga Celular (número, operador, monto) -->
+    <div id="seccion4" class="seccion">
+        <h2>📱 Recarga de Celular</h2>
+        <label>Número de celular</label>
+        <input type="text" id="numCelular" placeholder="Ej: 3001234567">
+        <label>Operador</label>
+        <select id="operador">
+            <option value="tigo">Tigo</option>
+            <option value="claro">Claro</option>
+            <option value="movistar">Movistar</option>
+            <option value="wom">Wom</option>
+        </select>
+        <label>Monto a recargar</label>
+        <input type="number" id="montoRecarga" placeholder="Monto (mayor a 0)" min="0.01" step="0.01">
+        <button class="btn btn-success" id="btnRecargar">Recargar</button>
+        <div id="msgRecarga" class="mensaje"></div>
+        <button class="btn btn-secondary" onclick="volverMenu()">Volver al Menú</button>
+    </div>
+
+    <!-- 5. Transferencia (tipo cuenta, número, monto) -->
+    <div id="seccion5" class="seccion">
+        <h2>🔄 Transferencia a otra cuenta</h2>
+        <label>Tipo de cuenta</label>
+        <select id="tipoCuenta">
+            <option value="corriente">Cuenta Corriente</option>
+            <option value="ahorros">Cuenta de Ahorros</option>
+            <option value="nequi">Nequi</option>
+            <option value="daviplata">Daviplata</option>
+        </select>
+        <label>Número de cuenta</label>
+        <input type="text" id="numCuenta" placeholder="Número de cuenta o identificación">
+        <label>Monto a transferir</label>
+        <input type="number" id="montoTransferir" placeholder="Monto (mayor a 0)" min="0.01" step="0.01">
+        <button class="btn btn-primary" id="btnTransferir">Transferir</button>
+        <div id="msgTransferir" class="mensaje"></div>
+        <button class="btn btn-secondary" onclick="volverMenu()">Volver al Menú</button>
+    </div>
+
+    <div class="footer">Juan Camilo Gil Perez - ADSO - 3410390</div>
+</div>
+
+<script>
+    // =================== VARIABLES GLOBALES ===================
+    let saldo = 0.0;
+    const USUARIO = 'admin';
+    const CONTRASENA = '1234';
+    let usuarioLogueado = false;
+
+    const STORAGE_KEY = 'saldoAppBancaria';
+
+    // =================== PERSISTENCIA ===================
+    function cargarSaldo() {
+        const saldoGuardado = localStorage.getItem(STORAGE_KEY);
+        if (saldoGuardado !== null) {
+            const parseado = parseFloat(saldoGuardado);
+            if (!isNaN(parseado) && parseado >= 0) {
+                saldo = parseado;
+                return;
+            }
+        }
+        saldo = 0.0;
+    }
+
+    function guardarSaldo() {
+        localStorage.setItem(STORAGE_KEY, saldo.toString());
+    }
+
+    // =================== DOM ===================
+    const loginSection = document.getElementById('loginSection');
+    const menuSection = document.getElementById('menuSection');
+    const loginUser = document.getElementById('loginUser');
+    const loginPass = document.getElementById('loginPass');
+    const btnLogin = document.getElementById('btnLogin');
+    const loginError = document.getElementById('loginError');
+    const usuarioNombre = document.getElementById('usuarioNombre');
+    const mensajeGlobal = document.getElementById('mensajeGlobal');
+
+    const secciones = {
+        1: document.getElementById('seccion1'),
+        2: document.getElementById('seccion2'),
+        3: document.getElementById('seccion3'),
+        4: document.getElementById('seccion4'),
+        5: document.getElementById('seccion5'),
+    };
+
+    const saldoMostrar = document.getElementById('saldoMostrar');
+    const montoIngresar = document.getElementById('montoIngresar');
+    const btnIngresar = document.getElementById('btnIngresar');
+    const msgIngresar = document.getElementById('msgIngresar');
+
+    const formaRetiro = document.getElementById('formaRetiro');
+    const montoRetirar = document.getElementById('montoRetirar');
+    const btnRetirar = document.getElementById('btnRetirar');
+    const msgRetirar = document.getElementById('msgRetirar');
+    const pinRetiroDiv = document.getElementById('pinRetiro');
+
+    const numCelular = document.getElementById('numCelular');
+    const operador = document.getElementById('operador');
+    const montoRecarga = document.getElementById('montoRecarga');
+    const btnRecargar = document.getElementById('btnRecargar');
+    const msgRecarga = document.getElementById('msgRecarga');
+
+    const tipoCuenta = document.getElementById('tipoCuenta');
+    const numCuenta = document.getElementById('numCuenta');
+    const montoTransferir = document.getElementById('montoTransferir');
+    const btnTransferir = document.getElementById('btnTransferir');
+    const msgTransferir = document.getElementById('msgTransferir');
+
+    // =================== FUNCIONES AUXILIARES ===================
+    function limpiarPantalla() {
+        Object.values(secciones).forEach(sec => sec.classList.remove('active'));
+        mensajeGlobal.style.display = 'none';
+        mensajeGlobal.className = 'mensaje';
+        mensajeGlobal.textContent = '';
+        [montoIngresar, montoRetirar, montoRecarga, montoTransferir, numCelular, numCuenta].forEach(inp => inp.value = '');
+        [msgIngresar, msgRetirar, msgRecarga, msgTransferir].forEach(msg => {
+            msg.style.display = 'none';
+            msg.className = 'mensaje';
+            msg.textContent = '';
+        });
+        pinRetiroDiv.style.display = 'none';
+        pinRetiroDiv.textContent = '';
+        formaRetiro.selectedIndex = 0;
+        operador.selectedIndex = 0;
+        tipoCuenta.selectedIndex = 0;
+    }
+
+    function mostrarMensaje(contenedor, texto, tipo) {
+        contenedor.textContent = texto;
+        contenedor.className = 'mensaje ' + tipo;
+        contenedor.style.display = 'block';
+    }
+
+    function ocultarMensajesEspecificos() {
+        [msgIngresar, msgRetirar, msgRecarga, msgTransferir].forEach(msg => {
+            msg.style.display = 'none';
+            msg.className = 'mensaje';
+            msg.textContent = '';
+        });
+        pinRetiroDiv.style.display = 'none';
+        pinRetiroDiv.textContent = '';
+    }
+
+    function actualizarSaldoMostrado() {
+        saldoMostrar.textContent = `$${saldo.toFixed(2)}`;
+    }
+
+    function volverMenu() {
+        limpiarPantalla();
+        menuSection.style.display = 'block';
+        Object.values(secciones).forEach(sec => sec.classList.remove('active'));
+    }
+
+    function mostrarSeccion(num) {
+        limpiarPantalla();
+        Object.values(secciones).forEach(sec => sec.classList.remove('active'));
+        if (secciones[num]) {
+            secciones[num].classList.add('active');
+            if (num === 1) actualizarSaldoMostrado();
+            mensajeGlobal.style.display = 'none';
+        }
+        menuSection.style.display = 'none';
+    }
+
+    function generarPin() {
+        return Math.floor(1000 + Math.random() * 9000).toString();
+    }
+
+    function validarMonto(monto, contenedorMsg) {
+        if (isNaN(monto) || monto <= 0) {
+            mostrarMensaje(contenedorMsg, 'El monto debe ser un número mayor a 0.', 'error');
+            return null;
+        }
+        return monto;
+    }
+
+    // =================== LOGIN ===================
+    btnLogin.addEventListener('click', () => {
+        const user = loginUser.value.trim();
+        const pass = loginPass.value.trim();
+        if (user === USUARIO && pass === CONTRASENA) {
+            usuarioLogueado = true;
+            loginError.style.display = 'none';
+            loginSection.style.display = 'none';
+            menuSection.style.display = 'block';
+            usuarioNombre.textContent = user;
+            cargarSaldo();
+            actualizarSaldoMostrado();
+            limpiarPantalla();
+            mostrarMensaje(mensajeGlobal, `Bienvenido ${user}. Saldo actual: $${saldo.toFixed(2)}`, 'info');
+            setTimeout(() => { mensajeGlobal.style.display = 'none'; }, 2500);
+        } else {
+            loginError.style.display = 'block';
+            loginError.textContent = 'Credenciales incorrectas. Intente de nuevo.';
+        }
+    });
+
+    loginPass.addEventListener('keypress', (e) => { if (e.key === 'Enter') btnLogin.click(); });
+
+    // =================== MENÚ ===================
+    document.querySelectorAll('.menu-grid .btn[data-opcion]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const op = parseInt(btn.dataset.opcion);
+            if (op === 6) {
+                // Opción "Salir": cierra sesión y vuelve al login
+                cerrarSesion();
+                return;
+            }
+            mostrarSeccion(op);
+        });
+    });
+
+    function cerrarSesion() {
+        usuarioLogueado = false;
+        menuSection.style.display = 'none';
+        loginSection.style.display = 'block';
+        limpiarPantalla();
+        loginError.style.display = 'none';
+        loginUser.value = 'admin';
+        loginPass.value = '1234';
+        mensajeGlobal.style.display = 'none';
+        Object.values(secciones).forEach(sec => sec.classList.remove('active'));
+    }
+
+    // =================== OPERACIONES (con guardado) ===================
+
+    // Ingresar Fondos
+    btnIngresar.addEventListener('click', () => {
+        ocultarMensajesEspecificos();
+        const monto = parseFloat(montoIngresar.value);
+        const valido = validarMonto(monto, msgIngresar);
+        if (valido === null) return;
+        saldo += valido;
+        guardarSaldo();
+        actualizarSaldoMostrado();
+        mostrarMensaje(msgIngresar, `Se ingresaron $${valido.toFixed(2)}. Nuevo saldo: $${saldo.toFixed(2)}`, 'exito');
+        montoIngresar.value = '';
+        if (secciones[1].classList.contains('active')) actualizarSaldoMostrado();
+    });
+    montoIngresar.addEventListener('keypress', (e) => { if (e.key === 'Enter') btnIngresar.click(); });
+
+    // Retiro
+    btnRetirar.addEventListener('click', () => {
+        ocultarMensajesEspecificos();
+        const monto = parseFloat(montoRetirar.value);
+        const valido = validarMonto(monto, msgRetirar);
+        if (valido === null) return;
+        if (valido > saldo) {
+            mostrarMensaje(msgRetirar, `Saldo insuficiente. Su saldo actual es $${saldo.toFixed(2)}`, 'error');
+            return;
+        }
+        saldo -= valido;
+        guardarSaldo();
+        actualizarSaldoMostrado();
+        const pin = generarPin();
+        const forma = formaRetiro.value === 'corresponsal' ? 'Corresponsal bancario' : 'Cajero automático';
+        mostrarMensaje(msgRetirar, `Retiro exitoso por $${valido.toFixed(2)} a través de ${forma}.`, 'exito');
+        pinRetiroDiv.textContent = `🔑 PIN de retiro: ${pin}`;
+        pinRetiroDiv.style.display = 'block';
+        montoRetirar.value = '';
+        if (secciones[1].classList.contains('active')) actualizarSaldoMostrado();
+    });
+    montoRetirar.addEventListener('keypress', (e) => { if (e.key === 'Enter') btnRetirar.click(); });
+
+    // Recarga
+    btnRecargar.addEventListener('click', () => {
+        ocultarMensajesEspecificos();
+        const numero = numCelular.value.trim();
+        if (numero === '') {
+            mostrarMensaje(msgRecarga, 'Debe ingresar un número de celular.', 'error');
+            return;
+        }
+        if (!/^\d{7,15}$/.test(numero)) {
+            mostrarMensaje(msgRecarga, 'Número de celular inválido. Use solo dígitos (7-15).', 'error');
+            return;
+        }
+        const monto = parseFloat(montoRecarga.value);
+        const valido = validarMonto(monto, msgRecarga);
+        if (valido === null) return;
+        if (valido > saldo) {
+            mostrarMensaje(msgRecarga, `Saldo insuficiente. Su saldo actual es $${saldo.toFixed(2)}`, 'error');
+            return;
+        }
+        saldo -= valido;
+        guardarSaldo();
+        actualizarSaldoMostrado();
+        const op = operador.options[operador.selectedIndex].text;
+        mostrarMensaje(msgRecarga, `Recarga de $${valido.toFixed(2)} para ${numero} (${op}) realizada. Nuevo saldo: $${saldo.toFixed(2)}`, 'exito');
+        numCelular.value = '';
+        montoRecarga.value = '';
+        if (secciones[1].classList.contains('active')) actualizarSaldoMostrado();
+    });
+    montoRecarga.addEventListener('keypress', (e) => { if (e.key === 'Enter') btnRecargar.click(); });
+
+    // Transferencia
+    btnTransferir.addEventListener('click', () => {
+        ocultarMensajesEspecificos();
+        const cuenta = numCuenta.value.trim();
+        if (cuenta === '') {
+            mostrarMensaje(msgTransferir, 'Debe ingresar el número de cuenta o identificación.', 'error');
+            return;
+        }
+        const monto = parseFloat(montoTransferir.value);
+        const valido = validarMonto(monto, msgTransferir);
+        if (valido === null) return;
+        if (valido > saldo) {
+            mostrarMensaje(msgTransferir, `Saldo insuficiente. Su saldo actual es $${saldo.toFixed(2)}`, 'error');
+            return;
+        }
+        saldo -= valido;
+        guardarSaldo();
+        actualizarSaldoMostrado();
+        const tipo = tipoCuenta.options[tipoCuenta.selectedIndex].text;
+        mostrarMensaje(msgTransferir, `Transferencia de $${valido.toFixed(2)} a cuenta ${tipo} N° ${cuenta} realizada. Nuevo saldo: $${saldo.toFixed(2)}`, 'exito');
+        numCuenta.value = '';
+        montoTransferir.value = '';
+        if (secciones[1].classList.contains('active')) actualizarSaldoMostrado();
+    });
+    montoTransferir.addEventListener('keypress', (e) => { if (e.key === 'Enter') btnTransferir.click(); });
+
+    // =================== INICIO ===================
+    Object.values(secciones).forEach(sec => sec.classList.remove('active'));
+    cargarSaldo();
+</script>
+</body>
+</html>

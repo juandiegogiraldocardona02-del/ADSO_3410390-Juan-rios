@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Taller HTML5 y CSS3 - SENA ADSO</title>
+  <style>
+    /* === ESTILOS BASE Y MINIMALISTAS (DARK MODE) === */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+    }
+
+    body {
+        background-color: #121212;
+        color: #d4d4d4;
+        padding: 2rem 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+        line-height: 1.6;
+    }
+
+    /* === MENÚ DE NAVEGACIÓN === */
+    nav {
+        background-color: #1e1e1e;
+        max-width: 900px;
+        width: 100%;
+        margin-bottom: 2rem;
+        padding: 1rem;
+        border-radius: 6px;
+        border-left: 6px solid #4a4a4a;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    nav ul {
+        list-style: none;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    nav a {
+        color: #a0a0a0;
+        text-decoration: none;
+        font-size: 0.85rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: color 0.3s;
+    }
+
+    nav a:hover {
+        color: #ffffff;
+    }
+
+    /* === CONTENEDOR DE SECCIONES === */
+    section {
+        max-width: 900px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    /* Tarjetas de artículos teóricos y prácticos */
+    .articulo-teorico, .herramienta-container, #caja-principal, .caja-secundaria, .tarjeta, .lista-favoritos {
+        background-color: #1e1e1e;
+        padding: 2rem;
+        border-radius: 6px;
+        border-left: 6px solid #4a4a4a;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    h1, h2, h3 {
+        color: #ffffff;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 0.8rem;
+    }
+
+    h1 { font-size: 1.6rem; border-bottom: 1px solid #444444; padding-bottom: 0.5rem; }
+    h2 { font-size: 1.3rem; border-bottom: 1px solid #444444; padding-bottom: 0.4rem; }
+    h3 { font-size: 1.1rem; }
+
+    p, li {
+        color: #d4d4d4;
+        font-size: 0.95rem;
+        margin-bottom: 0.6rem;
+    }
+
+    ul, ol {
+        padding-left: 1.5rem;
+    }
+
+    code {
+        background-color: #2a2a2a;
+        color: #ffffff;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-family: monospace;
+        font-size: 0.85rem;
+        border: 1px solid #444444;
+    }
+
+    /* === TABLAS === */
+    .tabla-comparativa {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .tabla-comparativa th, .tabla-comparativa td {
+        border: 1px solid #444444;
+        padding: 0.8rem;
+        text-align: left;
+        font-size: 0.9rem;
+    }
+
+    .tabla-comparativa th {
+        background-color: #252525;
+        color: #ffffff;
+    }
+
+    .tabla-comparativa td {
+        background-color: #1e1e1e;
+        color: #d4d4d4;
+    }
+
+    /* === BLOQUES DE CÓDIGO Y DIAGRAMAS === */
+    pre {
+        background-color: #121212;
+        border: 1px solid #333333;
+        padding: 1rem;
+        border-radius: 4px;
+        overflow-x: auto;
+        color: #d4d4d4;
+    }
+
+    .diagrama-box-model {
+        background-color: #2a2a2a;
+        border: 2px dashed #666;
+        padding: 15px;
+        color: #ffffff;
+        text-align: center;
+        font-size: 0.85rem;
+        font-weight: bold;
+    }
+    .diagrama-border { background-color: #252525; border: 2px solid #888; padding: 15px; margin-top: 10px; }
+    .diagrama-padding { background-color: #1e1e1e; border: 2px dotted #aaa; padding: 15px; margin-top: 10px; }
+    .diagrama-content { background-color: #121212; border: 2px solid #fff; padding: 15px; margin-top: 10px; color: #fff; }
+
+    /* Demostración de display */
+    .demo-display {
+        background-color: #252525;
+        padding: 1rem;
+        border-radius: 4px;
+        margin-top: 0.8rem;
+    }
+    .box-block { background-color: #333; color: #fff; padding: 8px; margin: 4px 0; border: 1px solid #555; }
+    .box-inline { background-color: #333; color: #fff; padding: 4px 8px; display: inline; border: 1px solid #555; }
+    .box-inline-block { background-color: #333; color: #fff; padding: 8px 12px; display: inline-block; border: 1px solid #555; }
+
+    /* === HERRAMIENTA INTERACTIVA (PUNTO 13) === */
+    .panel-controles {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.2rem;
+        margin-top: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .grupo-control {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+    }
+
+    label {
+        font-size: 0.85rem;
+        color: #a0a0a0;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .badge {
+        background-color: #2a2a2a;
+        padding: 2px 8px;
+        border-radius: 4px;
+        border: 1px solid #444444;
+        color: #ffffff;
+        font-family: monospace;
+    }
+
+    input[type="range"], select {
+        width: 100%;
+        background-color: #2a2a2a;
+        border: 1px solid #444444;
+        color: #ffffff;
+        padding: 0.5rem;
+        border-radius: 4px;
+        outline: none;
+    }
+
+    input[type="range"] {
+        accent-color: #888888;
+        cursor: pointer;
+    }
+
+    .caja-preview-wrapper {
+        background-color: #121212;
+        border-radius: 6px;
+        border: 1px solid #333333;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 180px;
+        padding: 1.5rem;
+    }
+
+    #caja-interactiva {
+        min-height: 120px;
+        border-radius: 4px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        transition: background-color 0.1s ease;
+    }
+
+    #texto-codigo-css {
+        background-color: rgba(18, 18, 18, 0.85);
+        padding: 8px 14px;
+        border-radius: 4px;
+        font-size: 0.85rem;
+        font-family: monospace;
+        color: #ffffff;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    hr {
+        border: 0;
+        border-top: 1px solid #333333;
+        margin: 1.5rem 0;
+    }
+
+    img {
+        max-width: 100%;
+        border-radius: 4px;
+        border: 1px solid #444444;
+        margin-top: 0.5rem;
+    }
+
+    /* Adaptabilidad móvil */
+    @media (max-width: 768px) {
+        .panel-controles {
+            grid-template-columns: 1fr;
+        }
+        nav ul {
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navegación por Secciones -->
+  <nav>
+    <ul>
+      <li><a href="#seccion1">1. Teoría y Fundamentos</a></li>
+      <li><a href="#seccion2">2. Diagramas Visuales</a></li>
+      <li><a href="#punto13">3. Herramienta Interactiva</a></li>
+      <li><a href="#seccion3">4. Ejercicios Prácticos</a></li>
+    </ul>
+  </nav>
+
+  <!-- SECCIÓN 1: CONSULTAS E INVESTIGACIONES (PUNTOS 1 AL 6) -->
+  <section id="seccion1">
+    
+    <article class="articulo-teorico">
+      <h2>Punto 1: Etiquetas Semánticas vs No Semánticas</h2>
+      <p><strong>Diferencia principal:</strong> Las etiquetas semánticas comunican la estructura y significado del contenido a los navegadores, buscadores y lectores de pantalla. Las no semánticas actúan solo como contenedores visuales sin peso sintáctico.</p>
+      
+      <table class="tabla-comparativa">
+        <thead>
+          <tr>
+            <th>Etiquetas Semánticas (5 Ejemplos)</th>
+            <th>Etiquetas No Semánticas (5 Ejemplos)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;article&gt;</code>, <code>&lt;footer&gt;</code></td>
+            <td><code>&lt;div&gt;</code>, <code>&lt;span&gt;</code>, <code>&lt;b&gt;</code>, <code>&lt;i&gt;</code>, <code>&lt;font&gt;</code></td>
+          </tr>
+        </tbody>
+      </table>
+      <p><strong>Accesibilidad Web:</strong> Facilitan la lectura para personas con discapacidad visual que usan lectores de pantalla mediante la navegación por referencias clave (landmarks).</p>
+    </article>
+
+    <article class="articulo-teorico">
+      <h2>Punto 2: El DOM (Document Object Model)</h2>
+      <p>El <strong>DOM</strong> es una interfaz de programación que representa la estructura HTML en un árbol de objetos dentro de la memoria del navegador. Es fundamental para manipular dinámicamente el contenido, estilos y atributos con JavaScript.</p>
+    </article>
+
+    <article class="articulo-teorico">
+      <h2>Punto 3: Especificidad en CSS</h2>
+      <p>El navegador resuelve conflictos de estilos evaluando esta jerarquía de puntos:</p>
+      <ul>
+        <li>Estilo Inline (en etiqueta HTML): <strong>1000 pts</strong></li>
+        <li>Selector por ID (<code>#mi-id</code>): <strong>100 pts</strong></li>
+        <li>Selector por Clase (<code>.mi-clase</code>): <strong>10 pts</strong></li>
+        <li>Selector por Etiqueta (<code>p</code>, <code>div</code>): <strong>1 pt</strong></li>
+      </ul>
+    </article>
+
+    <article class="articulo-teorico">
+      <h2>Punto 4: Reset CSS vs Normalize.css</h2>
+      <p>Un <strong>Reset CSS</strong> elimina todos los valores predeterminados de márgenes, paddings y bordes asignados por diferentes navegadores para construir el diseño desde cero de forma consistente.</p>
+    </article>
+
+    <article class="articulo-teorico">
+      <h2>Punto 5: Mobile First vs Responsive Web Design</h2>
+      <p><strong>Responsive Web Design:</strong> Estrategia global para adaptar un sitio web a pantallas de cualquier resolución.</p>
+      <p><strong>Mobile First:</strong> Metodología de desarrollo donde se maqueta primero la experiencia para dispositivos móviles y se adapta a pantallas grandes a través de <code>@media</code> queries.</p>
+    </article>
+
+    <article class="articulo-teorico">
+      <h2>Punto 6: Pseudo-clases y Pseudo-elementos</h2>
+      <p><strong>Pseudo-clases (<code>:</code>):</strong> Aplican estilos basándose en estados del elemento (ej: <code>:hover</code>, <code>:focus</code>, <code>:nth-child()</code>).</p>
+      <p><strong>Pseudo-elementos (<code>::</code>):</strong> Estilan una parte concreta de un elemento o generan contenido (ej: <code>::before</code>, <code>::after</code>, <code>::first-letter</code>).</p>
+    </article>
+
+  </section>
+
+  <!-- SECCIÓN 2: DIAGRAMAS Y RECURSOS VISUALES (PUNTOS 7 AL 12) -->
+  <section id="seccion2">
+    
+    <article class="articulo-teorico">
+      <h2>Punto 7: Diagrama del Modelo de Caja (Box Model)</h2>
+      <div class="diagrama-box-model">
+        MARGIN (Margen Externo)
+        <div class="diagrama-border">
+          BORDER (Borde)
+          <div class="diagrama-padding">
+            PADDING (Espaciado Interno)
+            <div class="diagrama-content">
+              CONTENT (Contenido: Texto / Imagen)
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="articulo-teorico">
+      <h2>Punto 8: Estructura de Árbol HTML5</h2>
+      <pre><code>
+&lt;!DOCTYPE html&gt;
+└── &lt;html lang="es"&gt;
+    ├── &lt;head&gt;
+    │   ├── &lt;meta charset="UTF-8"&gt;
+    │   └── &lt;title&gt;Título&lt;/title&gt;
+    └── &lt;body&gt;
+        ├── &lt;header&gt;...&lt;/header&gt;
+        ├── &lt;main&gt;...&lt;/main&gt;
+        └── &lt;footer&gt;...&lt;/footer&gt;
+      </code></pre>
+    </article>
+
+    <article class="articulo-teorico">
+      <h2>Punto 9: Comportamiento de Display</h2>
+      <div class="demo-display">
+        <p><strong>display: block</strong> (Ocupa todo el ancho):</p>
+        <div class="box-block">Bloque 1</div>
+        <div class="box-block">Bloque 2</div>
+      </div>
+
+      <div class="demo-display">
+        <p><strong>display: inline</strong> (Fluye en línea, ignora width/height):</p>
+        <div class="box-inline">Inline 1</div>
+        <div class="box-inline">Inline 2</div>
+      </div>
+
+      <div class="demo-display">
+        <p><strong>display: inline-block</strong> (Fluye en línea y respeta medidas):</p>
+        <div class="box-inline-block">Caja 1</div>
+        <div class="box-inline-block">Caja 2</div>
+      </div>
+    </article>
+
+    <article class="articulo-teorico">
+      <h2>Punto 10: Comparativa ID vs Class</h2>
+      <table class="tabla-comparativa">
+        <thead>
+          <tr>
+            <th>Atributo</th>
+            <th>Uso / Propósito</th>
+            <th>Selector CSS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>id</code></td>
+            <td>Identificador único por documento</td>
+            <td><code>#mi-id { ... }</code></td>
+          </tr>
+          <tr>
+            <td><code>class</code></td>
+            <td>Reutilizable en múltiples elementos</td>
+            <td><code>.mi-clase { ... }</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </article>
+
+    <article class="articulo-teorico">
+      <h2>Puntos 11 y 12: Unidades de Medida y Sistemas de Color</h2>
+      <p><strong>Unidades:</strong> Absolutas (<code>px</code>), Relativas a la Fuente (<code>rem</code>, <code>em</code>), Relativas al Viewport (<code>vw</code>, <code>vh</code>) y Porcentajes (<code>%</code>).</p>
+      <p><strong>Sistemas de Color:</strong> Keywords (<code>red</code>), HEX (<code>#3498db</code>), RGB/RGBA (<code>rgb(52,152,219)</code>), HSL/HSLA (<code>hsl(204,70%,53%)</code>).</p>
+    </article>
+
+  </section>
+
+  <!-- PUNTO 13: HERRAMIENTA INTERACTIVA -->
+  <section id="punto13" class="herramienta-container">
+    <h2>Punto 13: Herramienta Interactiva de Unidades y Colores</h2>
+    <p>Mueve las barras para cambiar el tamaño y deslizar por todo el espectro de color en tiempo real:</p>
+
+    <div class="panel-controles">
+      <div class="grupo-control">
+        <label for="range-tamano">
+          Ancho / Tamaño: <span id="val-tamano" class="badge">250px</span>
+        </label>
+        <input type="range" id="range-tamano" min="50" max="500" value="250" class="slider">
+      </div>
+
+      <div class="grupo-control">
+        <label for="select-unidad">Unidad de Medida (Punto 11):</label>
+        <select id="select-unidad">
+          <option value="px">px (Píxeles)</option>
+          <option value="rem">rem (Relativa a fuente)</option>
+          <option value="%">% (Porcentaje)</option>
+          <option value="vw">vw (Ancho de pantalla)</option>
+        </select>
+      </div>
+
+      <div class="grupo-control">
+        <label for="range-color">
+          Seleccionar Color: <span id="val-color" class="badge">180°</span>
+        </label>
+        <input type="range" id="range-color" min="0" max="360" value="180" class="slider slider-color">
+      </div>
+
+      <div class="grupo-control">
+        <label for="select-formato">Formato de Color (Punto 12):</label>
+        <select id="select-formato">
+          <option value="hsl">HSL</option>
+          <option value="rgb">RGB</option>
+          <option value="hex">HEX</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="caja-preview-wrapper">
+      <div id="caja-interactiva">
+        <div id="texto-codigo-css">
+          width: 250px;<br>background: hsl(180, 80%, 45%);
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN 3: PRÁCTICAS PARA REALIZAR EN CÓDIGO (PUNTOS 14 AL 23) -->
+  <section id="seccion3">
+    <h2>Sección 3: Prácticas en Código</h2>
+
+    <article class="articulo-teorico">
+      <h1>Punto 14 - Mi Pasatiempo Favorito: Desarrollo Web</h1>
+      <h2>Creando interfaces interactivas</h2>
+      <p>Me apasiona combinar la lógica de programación con el diseño visual para construir experiencias web atractivas y funcionales.</p>
+      <p>En mi tiempo libre también disfruto analizar la mecánica de videojuegos y la optimización de código para proyectos personales.</p>
+    </article>
+
+    <div id="caja-principal">
+      <p>Punto 15 - Contenido dentro del contenedor principal (ID: #caja-principal).</p>
+    </div>
+
+    <div class="caja-secundaria">
+      <p>Punto 15 - Contenido dentro del contenedor secundario (Clase: .caja-secundaria).</p>
+    </div>
+
+    <article class="articulo-teorico">
+      <p>
+        Punto 16 - Actualmente me encuentro realizando mi formación en el <strong>SENA</strong> en el programa de <em>Análisis y Desarrollo de Software (ADSO)</em>.
+      </p>
+    </article>
+
+    <div class="lista-favoritos">
+      <h3>Punto 17 - Mis 3 Lenguajes de Programación Favoritos:</h3>
+      <ol>
+        <li>JavaScript</li>
+        <li>Python</li>
+        <li>Dart</li>
+      </ol>
+    </div>
+
+    <article class="articulo-teorico">
+      <p>
+        Punto 18 - <a href="https://www.google.com" target="_blank" rel="noopener noreferrer" style="color: #a0a0a0;">Visitar Google</a>
+      </p>
+    </article>
+
+    <article class="articulo-teorico">
+      <p>Punto 19 - Imagen de muestra:</p>
+      <img src="https://picsum.photos/300/150" alt="Imagen ilustrativa">
+    </article>
+
+    <div class="tarjeta">
+      <h3>Punto 23 - Tarjeta de Práctica (Box Model)</h3>
+      <p>Esta tarjeta aplica un padding de 20px y un margin de 15px manteniendo la estética oscura elegida.</p>
+    </div>
+  </section>
+
+  <!-- LÓGICA JAVASCRIPT -->
+  <script>
+    const rangeTamano = document.getElementById('range-tamano');
+    const rangeColor = document.getElementById('range-color');
+    const selectUnidad = document.getElementById('select-unidad');
+    const selectFormato = document.getElementById('select-formato');
+
+    const valTamano = document.getElementById('val-tamano');
+    const valColor = document.getElementById('val-color');
+
+    const caja = document.getElementById('caja-interactiva');
+    const textoCodigo = document.getElementById('texto-codigo-css');
+
+    function hslToRgb(h, s, l) {
+      s /= 100;
+      l /= 100;
+      const k = n => (n + h / 30) % 12;
+      const a = s * Math.min(l, 1 - l);
+      const f = n => l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
+      return [
+        Math.round(255 * f(0)),
+        Math.round(255 * f(8)),
+        Math.round(255 * f(4))
+      ];
+    }
+
+    function actualizarCaja() {
+      const pxValue = parseFloat(rangeTamano.value);
+      const unidad = selectUnidad.value;
+      const hue = parseInt(rangeColor.value);
+      const formato = selectFormato.value;
+
+      let anchoCss = pxValue + 'px';
+      if (unidad === 'rem') {
+        anchoCss = (pxValue / 16).toFixed(1) + 'rem';
+      } else if (unidad === '%') {
+        anchoCss = Math.round((pxValue / 500) * 100) + '%';
+      } else if (unidad === 'vw') {
+        anchoCss = Math.round((pxValue / 500) * 70) + 'vw';
+      }
+
+      if (valTamano) valTamano.textContent = anchoCss;
+      if (valColor) valColor.textContent = hue + '°';
+
+      const colorBaseHSL = `hsl(${hue}, 50%, 50%)`;
+      const [r, g, b] = hslToRgb(hue, 50, 50);
+
+      let colorFormateado = colorBaseHSL;
+
+      if (formato === 'rgb') {
+        colorFormateado = `rgb(${r}, ${g}, ${b})`;
+      } else if (formato === 'hex') {
+        const toHex = x => x.toString(16).padStart(2, '0');
+        colorFormateado = `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+      }
+
+      caja.style.setProperty('width', anchoCss, 'important');
+      caja.style.setProperty('min-height', '120px', 'important');
+      caja.style.setProperty('background-color', colorBaseHSL, 'important');
+
+      textoCodigo.innerHTML = `width: <strong>${anchoCss}</strong>;<br>background: <strong>${colorFormateado}</strong>;`;
+    }
+
+    ['input', 'change'].forEach(evento => {
+      rangeTamano.addEventListener(evento, actualizarCaja);
+      rangeColor.addEventListener(evento, actualizarCaja);
+      selectUnidad.addEventListener(evento, actualizarCaja);
+      selectFormato.addEventListener(evento, actualizarCaja);
+    });
+
+    document.addEventListener('DOMContentLoaded', actualizarCaja);
+    actualizarCaja();
+  </script>
+
+</body>
+</html>

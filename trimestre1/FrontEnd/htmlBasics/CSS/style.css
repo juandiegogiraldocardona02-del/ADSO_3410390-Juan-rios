@@ -1,0 +1,12 @@
+body{
+    font-family: 'poppins', sans-serif;
+    background-color: #e6ba43; /* Un fondo de color oscuro */
+    color: #061637;          /* Texto color blanco */
+}
+.caja-secundaria {
+    border: 2px solid blue;
+}
+    .tarjeta {
+    padding: 20px; /* Espaciado interno*/
+    margin: 15px;  /* Margen externo lo cual empuja a otros elementos hacia afuera */
+    }

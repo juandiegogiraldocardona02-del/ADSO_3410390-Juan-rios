@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Polla Mundialista 2026</title>
+  <style>
+    /* ============================================
+       VARIABLES DE COLOR (DARK MODE MINIMALISTA)
+       ============================================ */
+    :root {
+      --bg-primary: #121212;
+      --bg-secondary: #1e1e1e;
+      --bg-tertiary: #252525;
+      --text-primary: #ffffff;
+      --text-secondary: #d4d4d4;
+      --text-muted: #888888;
+      --border-color: #333333;
+      --border-light: #444444;
+      --accent-color: #555555;
+      --accent-hover: #777777;
+      --shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      --radius: 6px;
+      --transition: 0.2s ease-in-out;
+    }
+
+    /* ============================================
+       RESET Y CONFIGURACIÓN GLOBAL
+       ============================================ */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-secondary);
+      line-height: 1.6;
+      min-height: 100vh;
+      padding: 1rem;
+    }
+
+    /* ============================================
+       HEADER
+       ============================================ */
+    header {
+      max-width: 1200px;
+      margin: 0 auto 1.5rem auto;
+      background: var(--bg-secondary);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border-left: 6px solid var(--accent-color);
+      border-top: 1px solid var(--border-color);
+      border-right: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
+      padding: 1.5rem 2rem;
+    }
+
+    .header-contenido {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    header h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin: 0 auto;
+      text-align: center;
+      flex: 1;
+    }
+
+    .logo svg circle {
+      fill: var(--bg-tertiary);
+      stroke: var(--border-light);
+    }
+    .logo svg path {
+      fill: var(--text-primary);
+    }
+    .logo svg text {
+      fill: var(--text-muted);
+    }
+
+    .widget-usuario {
+      background: var(--bg-tertiary);
+      border-radius: var(--radius);
+      padding: 0.6rem 1.2rem;
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      font-size: 0.85rem;
+    }
+
+    .usuario-info {
+      display: flex;
+      gap: 1.2rem;
+      font-weight: 600;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    /* ============================================
+       MAIN LAYOUT
+       ============================================ */
+    main {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 2rem;
+    }
+
+    @media (max-width: 900px) {
+      main {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ============================================
+       MÓDULO DE PARTIDOS
+       ============================================ */
+    .modulo-partidos {
+      background: var(--bg-secondary);
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border-color);
+    }
+
+    .modulo-partidos h2 {
+      color: var(--text-primary);
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 0.5rem;
+    }
+
+    .grid-partidos {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    /* Tarjeta de partido */
+    .tarjeta-partido {
+      background: var(--bg-tertiary);
+      border-radius: var(--radius);
+      padding: 1rem 1.2rem;
+      box-shadow: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      border: 1px solid var(--border-color);
+      transition: border-color var(--transition);
+      position: relative;
+    }
+
+    .tarjeta-partido:focus-within {
+      border-color: var(--accent-hover);
+    }
+
+    .equipo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .bandera {
+      font-size: 2rem;
+      line-height: 1;
+      margin-bottom: 0.2rem;
+    }
+
+    .nombre-equipo {
+      display: block;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .vs {
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin: 0 0.2rem;
+      flex-shrink: 0;
+    }
+
+    .marcador {
+      width: 3.2rem;
+      height: 3rem;
+      text-align: center;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      transition: border-color var(--transition);
+      appearance: textfield;
+      flex-shrink: 0;
+    }
+
+    .marcador::-webkit-outer-spin-button,
+    .marcador::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    .marcador:focus {
+      outline: none;
+      border-color: var(--accent-hover);
+    }
+
+    .btn-guardar {
+      display: block;
+      margin: 2rem auto 0;
+      background: var(--bg-tertiary);
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+      padding: 0.8rem 2rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: background var(--transition), border-color var(--transition);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-guardar:hover {
+      background: var(--accent-color);
+      border-color: var(--accent-hover);
+    }
+
+    /* ============================================
+       MÓDULO RANKING (ASIDE)
+       ============================================ */
+    .modulo-ranking {
+      background: var(--bg-secondary);
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border-color);
+      height: fit-content;
+      align-self: start;
+    }
+
+    .modulo-ranking h2 {
+      color: var(--text-primary);
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 0.5rem;
+    }
+
+    .tabla-ranking {
+      width: 100%;
+      border-collapse: collapse;
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .tabla-ranking th {
+      text-align: left;
+      padding: 0.8rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      background: var(--bg-tertiary);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .tabla-ranking td {
+      padding: 0.9rem 0.8rem;
+      border-bottom: 1px solid var(--border-color);
+      vertical-align: middle;
+      font-weight: 500;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    .tabla-ranking tbody tr:nth-child(even) {
+      background-color: rgba(255, 255, 255, 0.02);
+    }
+
+    .fila-lider {
+      background: var(--bg-tertiary) !important;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.75rem;
+      margin: 0 auto;
+    }
+
+    /* ============================================
+       RESPONSIVE
+       ============================================ */
+    @media (max-width: 650px) {
+      header {
+        padding: 1rem;
+      }
+      .header-contenido {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      header h1 {
+        font-size: 1.2rem;
+      }
+      .usuario-info {
+        justify-content: center;
+      }
+      .modulo-partidos, .modulo-ranking {
+        padding: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-contenido">
+      <div class="logo" aria-hidden="true">
+        <svg width="50" height="50" viewBox="0 0 70 70" fill="none">
+          <circle cx="35" cy="35" r="32" stroke-width="2.5"/>
+          <path d="M35 12 L38 28 L55 28 L41 38 L46 56 L35 46 L24 56 L29 38 L15 28 L32 28 Z"/>
+          <text x="35" y="66" text-anchor="middle" font-size="8" font-weight="bold">2026</text>
+        </svg>
+      </div>
+      <h1>Polla Mundialista 2026</h1>
+      <div class="widget-usuario">
+        <div class="usuario-info">
+          <span class="usuario-nombre">👤 Juan Diego Rios</span>
+          <span class="usuario-puntos">⭐ 87 pts</span>
+          <span class="usuario-posicion">🏆 #4 en el ranking</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="modulo-partidos" aria-labelledby="partidos-titulo">
+      <h2 id="partidos-titulo">⚽ Próximos partidos - Fase de grupos</h2>
+      <form class="form-predicciones" novalidate>
+        <div class="grid-partidos">
+          <article class="tarjeta-partido">
+            <div class="equipo equipo-a">
+              <span class="bandera" aria-hidden="true">🇺🇸</span>
+              <span class="nombre-equipo">Estados Unidos</span>
+            </div>
+            <input type="number" class="marcador" min="0" aria-label="Marcador Estados Unidos" placeholder="0">
+            <span class="vs" aria-hidden="true">VS</span>
+            <input type="number" class="marcador" min="0" aria-label="Marcador México" placeholder="0">
+            <div class="equipo equipo-b">
+              <span class="bandera" aria-hidden="true">🇲🇽</span>
+              <span class="nombre-equipo">México</span>
+            </div>
+          </article>
+          <article class="tarjeta-partido">
+            <div class="equipo equipo-a">
+              <span class="bandera" aria-hidden="true">🇦🇷</span>
+              <span class="nombre-equipo">Argentina</span>
+            </div>
+            <input type="number" class="marcador" min="0" aria-label="Marcador Argentina" placeholder="0">
+            <span class="vs" aria-hidden="true">VS</span>
+            <input type="number" class="marcador" min="0" aria-label="Marcador Brasil" placeholder="0">
+            <div class="equipo equipo-b">
+              <span class="bandera" aria-hidden="true">🇧🇷</span>
+              <span class="nombre-equipo">Brasil</span>
+            </div>
+          </article>
+          <article class="tarjeta-partido">
+            <div class="equipo equipo-a">
+              <span class="bandera" aria-hidden="true">🇩🇪</span>
+              <span class="nombre-equipo">Alemania</span>
+            </div>
+            <input type="number" class="marcador" min="0" aria-label="Marcador Alemania" placeholder="0">
+            <span class="vs" aria-hidden="true">VS</span>
+            <input type="number" class="marcador" min="0" aria-label="Marcador Francia" placeholder="0">
+            <div class="equipo equipo-b">
+              <span class="bandera" aria-hidden="true">🇫🇷</span>
+              <span class="nombre-equipo">Francia</span>
+            </div>
+          </article>
+          <article class="tarjeta-partido">
+            <div class="equipo equipo-a">
+              <span class="bandera" aria-hidden="true">🇪🇸</span>
+              <span class="nombre-equipo">España</span>
+            </div>
+            <input type="number" class="marcador" min="0" aria-label="Marcador España" placeholder="0">
+            <span class="vs" aria-hidden="true">VS</span>
+            <input type="number" class="marcador" min="0" aria-label="Marcador Inglaterra" placeholder="0">
+            <div class="equipo equipo-b">
+              <span class="bandera" aria-hidden="true">🇬🇧</span>
+              <span class="nombre-equipo">Inglaterra</span>
+            </div>
+          </article>
+        </div>
+        <button type="submit" class="btn-guardar">💾 Guardar Pronósticos</button>
+      </form>
+    </section>
+
+    <aside class="modulo-ranking" aria-labelledby="ranking-titulo">
+      <h2 id="ranking-titulo">🏅 Ranking de la Polla</h2>
+      <table class="tabla-ranking">
+        <thead>
+          <tr>
+            <th scope="col">Puesto</th>
+            <th scope="col">Avatar</th>
+            <th scope="col">Participante</th>
+            <th scope="col">Puntos</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="fila-lider">
+            <td>1°</td>
+            <td><div class="avatar" aria-hidden="true">CM</div></td>
+            <td>Cepillito</td>
+            <td>112</td>
+          </tr>
+          <tr>
+            <td>2°</td>
+            <td><div class="avatar" aria-hidden="true">AG</div></td>
+            <td>Julian salazar</td>
+            <td>95</td>
+          </tr>
+          <tr>
+            <td>3°</td>
+            <td><div class="avatar" aria-hidden="true">LR</div></td>
+            <td>Mateo Gomez</td>
+            <td>88</td>
+          </tr>
+          <tr>
+            <td>4°</td>
+            <td><div class="avatar" aria-hidden="true">JP</div></td>
+            <td>Juan Diego Rios</td>
+            <td>87</td>
+          </tr>
+          <tr>
+            <td>5°</td>
+            <td><div class="avatar" aria-hidden="true">MV</div></td>
+            <td>María jose</td>
+            <td>80</td>
+          </tr>
+        </tbody>
+      </table>
+    </aside>
+  </main>
+</body>
+</html>

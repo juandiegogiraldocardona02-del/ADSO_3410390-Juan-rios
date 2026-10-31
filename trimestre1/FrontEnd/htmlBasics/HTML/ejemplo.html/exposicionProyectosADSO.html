@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informe proyectos finales ADSO 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Devicon para logos de tecnologías -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css">
+    <style>
+        /* --- VARIABLES CSS (MODO OSCURO Y CLARO MINIMALISTA) --- */
+        :root {
+            --bg-primary: #121212;
+            --bg-secondary: #1e1e1e;
+            --bg-tertiary: #252525;
+            --text-primary: #ffffff;
+            --text-secondary: #d4d4d4;
+            --text-muted: #888888;
+            --border-color: #333333;
+            --accent-color: #777777;
+            --accent-hover: #aaaaaa;
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            --transition: 0.2s ease;
+        }
+
+        .light-mode {
+            --bg-primary: #f4f4f4;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #eeeeee;
+            --text-primary: #1a1a1a;
+            --text-secondary: #444444;
+            --text-muted: #666666;
+            --border-color: #dddddd;
+            --accent-color: #555555;
+            --accent-hover: #222222;
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        html {
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 2rem 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            line-height: 1.6;
+        }
+
+        .wrapper {
+            max-width: 1300px;
+            width: 100%;
+            background: var(--bg-secondary);
+            padding: 2.5rem;
+            border-radius: 8px;
+            border-left: 6px solid var(--accent-color);
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        /* --- CONTROLES SUPERIORES --- */
+        .top-controls {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .font-controls {
+            display: flex;
+            gap: 4px;
+            background: var(--bg-tertiary);
+            padding: 4px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+        }
+
+        .font-controls button {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            padding: 4px 10px;
+            cursor: pointer;
+            border-radius: 3px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .font-controls button:hover {
+            background: var(--accent-color);
+            color: #ffffff;
+        }
+
+        .theme-toggle-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg-tertiary);
+            padding: 4px 12px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+        }
+
+        .theme-switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 22px;
+        }
+
+        .theme-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: #444444;
+            transition: .3s;
+            border-radius: 22px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 3px;
+            bottom: 3px;
+            background: white;
+            transition: .3s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background: #777777;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(22px);
+        }
+
+        .toggle-label {
+            font-weight: 500;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* --- CABECERA --- */
+        header {
+            text-align: center;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-weight: 500;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: -0.5rem;
+        }
+
+        /* --- CONTENIDO PRINCIPAL --- */
+        .main-content {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 1.5rem;
+        }
+
+        .projects-section {
+            background: var(--bg-tertiary);
+            border-radius: 6px;
+            padding: 1.2rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .projects-section h3 {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+        }
+
+        .project-scroll-container {
+            max-height: 480px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding-right: 4px;
+        }
+
+        .project-scroll-container::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .project-scroll-container::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 3px;
+        }
+
+        .project-item {
+            padding: 0.7rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text-secondary);
+            background: var(--bg-secondary);
+            border: 1px solid transparent;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .project-item:hover {
+            color: var(--text-primary);
+            border-color: var(--border-color);
+        }
+
+        .project-item.active {
+            background: var(--accent-color);
+            color: #ffffff;
+            font-weight: 600;
+            border-color: var(--accent-color);
+        }
+
+        /* --- COLUMNA DE DETALLES --- */
+        .info-col {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .info-col article {
+            background: var(--bg-tertiary);
+            border-radius: 6px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .info-col article h4 {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-primary);
+            font-weight: 600;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.4rem;
+        }
+
+        .info-col article p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        .members-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .members-list span {
+            background: var(--bg-secondary);
+            padding: 0.5rem 0.8rem;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* --- TECNOLOGÍAS --- */
+        .tech-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 4px;
+        }
+
+        .tech-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg-secondary);
+            padding: 6px 12px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .tech-item i,
+        .tech-item img,
+        .tech-item svg {
+            width: 1.1rem;
+            height: 1.1rem;
+            object-fit: contain;
+        }
+
+        /* --- PIE DE PÁGINA --- */
+        footer {
+            background: var(--bg-tertiary);
+            border-radius: 6px;
+            padding: 1.2rem;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        footer p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        footer p strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* --- RESPONSIVO --- */
+        @media (max-width: 850px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            .project-scroll-container {
+                max-height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <!-- CONTROLES -->
+        <div class="top-controls">
+            <div class="font-controls">
+                <button onclick="changeFontSize(-1)">A−</button>
+                <button onclick="changeFontSize(1)">A+</button>
+            </div>
+            <div class="theme-toggle-wrapper">
+                <span class="toggle-label">Tema</span>
+                <label class="theme-switch">
+                    <input type="checkbox" id="themeToggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+
+        <!-- HEADER -->
+        <header>
+            <h1>Proyectos finales ADSO 2026</h1>
+        </header>
+        <div class="subtitle">Análisis y Desarrollo de Software</div>
+
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <!-- COLUMNA IZQUIERDA -->
+            <aside class="aside-col">
+                <section class="projects-section">
+                    <h3>Proyectos</h3>
+                    <div class="project-scroll-container" id="projectList"></div>
+                </section>
+            </aside>
+
+            <!-- COLUMNA DERECHA -->
+            <section class="info-col">
+                <article id="projectDetails">
+                    <h4>Nombre del Proyecto</h4>
+                    <p id="projDescription">Selecciona un proyecto para ver sus detalles.</p>
+                </article>
+                <article id="membersDetails">
+                    <h4>Integrantes</h4>
+                    <div id="memberList" class="members-list">
+                        <span style="background: transparent; border: none; color: var(--text-muted); font-weight: 400; padding: 0;">Equipo pendiente de selección.</span>
+                    </div>
+                </article>
+                <article id="techDetails">
+                    <h4>Tecnologías Usadas</h4>
+                    <div id="techGrid" class="tech-grid"></div>
+                </article>
+            </section>
+        </div>
+
+        <!-- FOOTER -->
+        <footer>
+            <p><strong>Juan Diego Rios Giraldo</strong></p>
+            <p>Análisis y Desarrollo de Software | Ficha: 3410390</p>
+            <p>SENA Regional Caldas</p>
+        </footer>
+    </div>
+
+    <script>
+        // --- CATÁLOGO COMPLETO DE TECNOLOGÍAS (idéntico al original) ---
+        const technologies = [
+            { key: "dart", name: "Dart", devicon: "dart" },
+            { key: "flutter", name: "Flutter", devicon: "flutter" },
+            { key: "html", name: "HTML", devicon: "html5" },
+            { key: "css", name: "CSS", devicon: "css3" },
+            { key: "javascript", name: "JavaScript", devicon: "javascript" },
+            { key: "python", name: "Python", devicon: "python" },
+            { key: "react", name: "React", devicon: "react" },
+            { key: "mongodb", name: "MongoDB", devicon: "mongodb" },
+            { key: "mysql", name: "MySQL", devicon: "mysql" },
+            { key: "nodejs", name: "Node.js", devicon: "nodejs" },
+            { key: "php", name: "PHP", devicon: "php" },
+            { key: "tailwind", name: "Tailwind", devicon: "tailwindcss" },
+            { key: "github", name: "GitHub", devicon: "github" },
+            { key: "vercel", name: "Vercel", devicon: "vercel" },
+            { key: "firebase", name: "Firebase", devicon: "firebase" },
+            { key: "bootstrap", name: "Bootstrap", devicon: "bootstrap" },
+            { key: "apache", name: "Apache", devicon: "apache" },
+            { key: "chartjs", name: "Chart.js", devicon: "chartjs" },
+            { key: "laravel", name: "Laravel", devicon: "laravel" },
+            { key: "mariadb", name: "MariaDB", devicon: "mariadb" },
+            { key: "cloudinary", name: "Cloudinary", devicon: "cloudinary" },
+            { key: "leaflet", name: "Leaflet", devicon: "leaflet" },
+            { key: "nextjs", name: "Next.js", devicon: "nextjs" },
+            { key: "nginx", name: "Nginx", devicon: "nginx" },
+            { key: "postgresql", name: "PostgreSQL", devicon: "postgresql" },
+            { key: "arduino", name: "Arduino", devicon: "arduino" },
+            { key: "docker", name: "Docker", devicon: "docker" },
+            { key: "daisyui", name: "Daisy UI", logoUrl: "https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/daisyui.svg" },
+            { key: "sweetalert2", name: "SweetAlert2", logoUrl: "https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/sweetalert2.svg" },
+            { key: "namecheap", name: "Namecheap", logoUrl: "https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/namecheap.svg" },
+            { key: "railway", name: "Railway", logoUrl: "https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/railway.svg" },
+            { key: "resend", name: "Resend", logoUrl: "https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/resend.svg" },
+            { key: "tableplus", name: "TablePlus", logoUrl: "https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/tableplus.svg" },
+            { key: "phpmyadmin", name: "PhpMyAdmin", logoUrl: "https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/phpmyadmin.svg" },
+            { key: "alpinejs", name: "Alpine.js", logoUrl: "https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/alpinejs.svg" },
+            { key: "n8n", name: "n8n", logoUrl: "https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/n8n.svg" },
+            { key: "prisma", name: "Prisma", logoUrl: "https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/prisma.svg" },
+            { key: "swagger", name: "Swagger", logoUrl: "https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/swagger.svg" },
+            { key: "xampp", name: "XAMPP", logoUrl: "https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/xampp.svg" },
+            { key: "infinityfree", name: "Infinity Free", svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12c-2-2.67-4-4-6-4a4 4 0 1 0 0 8c2 0 4-1.33 6-4Zm0 0c2 2.67 4 4 6 4a4 4 0 0 0 0-8c-2 0-4 1.33-6 4Z"/></svg>` },
+            { key: "unout", name: "Unout", svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="4"/><text x="12" y="16" text-anchor="middle" fill="currentColor" font-size="10" font-weight="bold">UN</text></svg>` },
+            { key: "ajax", name: "AJAX", svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 16 14"/><path d="M7 12h10"/></svg>` },
+            { key: "domapi", name: "DOM API", svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="3"/><path d="M7 8h10M7 12h10M7 16h7"/></svg>` },
+            { key: "mutationobserver", name: "Mutation Observer", svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>` },
+            { key: "arcjet", name: "Arcjet", svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="2"><path d="M12 2l2 7h7l-5 4 2 7-6-4-6 4 2-7-5-4h7z"/></svg>` },
+            { key: "coolify", name: "Coolify", svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="4"/><text x="12" y="16" text-anchor="middle" fill="currentColor" font-size="8" font-weight="bold">CO</text></svg>` },
+            { key: "middleware", name: "Middleware", svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>` },
+            { key: "blade", name: "Blade", svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="4"/><text x="12" y="16" text-anchor="middle" fill="currentColor" font-size="8" font-weight="bold">BL</text></svg>` },
+            { key: "eloquent", name: "Eloquent", svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#cccccc" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="4"/><text x="12" y="16" text-anchor="middle" fill="currentColor" font-size="8" font-weight="bold">EL</text></svg>` }
+        ];
+
+        // --- 22 PROYECTOS (idénticos al original) ---
+        const projects = [
+            { name: "Proyectos Finales ADSO", description: "Proyectos finales de Análisis y Desarrollo de Software.", members: ["Felicitaciones a todos los exponentes."] },
+            { name: "EVENTS", description: "Sistema web para la gestión de eventos institucionales del SENA.", members: ["Evelyn Arroyave", "Juan Camilo Hernandez", "Simon Cardenas Sanchez"], techs: ["html", "css", "javascript","tailwind","leaflet","daisyui","sweetalert2", "php", "mysql", "bootstrap", "apache", "github"] },
+            { name: "GYMTECH", description: "Sistema Integral de Gestión de Gimnasios", members: ["Luis Felipe Restrepo Chaves", "Mariana Ramirez"], techs: ["dart","react", "flutter", "css", "github", "vercel","railway","mysql","firebase","namecheap","nodejs","resend","cloudinary"] },
+            { name: "AIP", description: "Sistema de censo y registro de ingreso y salida peatonal del plantel y visitantes", members: ["Jimmy Alexander Hurtado Montaño", "Juan José Valencia Pelaes", "Federico Marin Cardona", "Salome Rodriguez Rios"], techs: ["phpmyadmin", "apache", "mysql", "railway", "nginx","bootstrap","javascript","ajax","tableplus","chartjs","php","laravel"] },
+            { name: "SIGPRO", description: "Sistema de Gestión de Proyectos", members: ["Luis Miguel Muñoz Arango", "Sebastian Grajales Pineda", "Juan David Quinchia Contreras"], techs: ["tailwind", "css", "alpinejs", "laravel", "php", "mysql"] },
+            { name: "Gestión de contratación SENA", description: "Plataforma web para optimizar la gestión de contratación en el SENA", members: ["Luis fernando Cardona", "Luis Miguel Loaiza", "Maria Fernanda Rodriguez", "Salome Ramirez"], techs: ["laravel", "php", "mysql", "middleware", "github", "blade","tailwind","css"] },
+            { name: "SENAKAN", description: "Aplicación web de gestión de flujo de trabajo basada en Kanban", members: ["Miguel Angel Pineda Lopez"], techs: ["eloquent", "laravel", "php", "mysql","css"] },
+            { name: "Nexo", description: "Plataforma integral para gestión documental de proyectos formativos.", members: ["Davida Gallego Lopez", "Fernan Leandro Florez"], techs: ["html", "css", "mysql", "php", "javascript","domapi","mutationobserver"] },
+            { name: "CulturApp", description: "Automatización de servicios de casas de la cultura.", members: ["Luis Felipe Sanchez"], techs: ["html", "css", "javascript","laravel", "php", "mysql"] },
+            { name: "AsisTIC", description: "Plataforma de registro y control de asistencia de usuarios.", members: ["Tomás Orrego Berrio", "Kevin Arenas Ortiz"], techs: ["html", "mysql", "javascript", "css", "php"] },
+            { name: "Seguimiento aprendices SENA", description: "Sistema web de seguimiento académico y disciplinario.", members: ["Yeral Esmid Garcia"], techs: ["html", "php", "mysql", "javascript", "css"] },
+            { name: "Radicados", description: "Sistema de gestión de solicitudes con número de radicado.", members: ["Cesar Augusto", "Jacobo Alzate", "Diego Florian"], techs: ["php", "mysql", "javascript", "html", "nodejs"] },
+            { name: "SIGBA", description: "Sistema Integral de Gestión de Bitácoras Académicas", members: ["Kevin Arenas Ortiz", "Jacono Sambrano Arenas", "Sebastian Ramirez Agudelo", "Tomas Orrego Berrio"], techs: ["html", "css", "javascript", "bootstrap", "mariadb","mysql","phpmyadmin"] },
+            { name: "SGFC", description: "Plataforma web institucional para recepción de documentos.", members: ["Sara Betancur Marquez", "Carlos Andres Andica", "Nicol Dayanna Puerta Puerta"], techs: ["html", "css", "javascript", "php", "mariadb","mysql", "apache"] },
+            { name: "FACE", description: "Flujo de Ambientes Controlados Electrónicamente", members: ["Gerónimo Gonzales", "Juan David Flor"], techs: ["python", "react", "laravel", "github","n8n","prisma","arcjet","postgresql","arduino","docker","coolify","swagger"] },
+            { name: "Granja Amiga", description: "Sistema de Gestión Integral para control de animales.", members: ["Valeria Román García", "Mishell Dayanna Marín Hernandez", "Juan esteban Muñoz Giraldo "], techs: ["html", "mysql", "javascript", "css", "php"] },
+            { name: "Quorum", description: "Plataforma para modernizar control de asistencia diaria.", members: ["Andres Felipe Orozco Piedrahita"], techs: ["laravel", "php", "mysql", "nextjs"] },
+            { name: "SMARTCOURSE", description: "Prototipo funcional para automatizar cursos del SENA.", members: ["Juan Esteban Gonzales", "Juan Pablo Erira Vargsas"], techs: ["html", "css", "javascript", "laravel", "php", "mysql"] },
+            { name: "DTD SENA", description: "Sistema web para detectar y prevenir la deserción estudiantil.", members: ["Alejandro Florez Correa", "Jose Daniel Valencia Montenegro"], techs: ["html", "css", "mysql", "javascript", "php","xampp"] },
+            { name: "Fixxa", description: "Aplicación web para contratación de servicios de soporte técnico.", members: ["Daniela Ruiz Arango", "Brayan Andres Jaramillo Henao"], techs: ["react", "laravel", "php", "mysql"] },
+            { name: "SIGMPIC", description: "Sistema de Gestión y Control de los Ambientes de Formación", members: ["Harvey Julian Calle Meneses", "Santiago Arevalo Mosquera"], techs: ["javascript", "mysql"] }
+        ];
+
+        // --- RENDERIZADO DE PROYECTOS ---
+        const projectList = document.getElementById('projectList');
+        const projNameDisplay = document.querySelector('#projectDetails h4');
+        const projDescDisplay = document.getElementById('projDescription');
+        const memberContainer = document.getElementById('memberList');
+        const techGrid = document.getElementById('techGrid');
+
+        function renderProjects() {
+            projectList.innerHTML = '';
+            projects.forEach((proj, index) => {
+                const div = document.createElement('div');
+                div.className = 'project-item';
+                div.textContent = proj.name;
+                div.dataset.index = index;
+                div.addEventListener('click', () => selectProject(index));
+                projectList.appendChild(div);
+            });
+            if (projects.length > 0) selectProject(0);
+        }
+
+        function selectProject(index) {
+            document.querySelectorAll('.project-item').forEach(el => el.classList.remove('active'));
+            const items = document.querySelectorAll('.project-item');
+            if (items[index]) items[index].classList.add('active');
+
+            const project = projects[index];
+            projNameDisplay.textContent = project.name;
+            projDescDisplay.textContent = project.description;
+
+            memberContainer.innerHTML = '';
+            project.members.forEach(member => {
+                const span = document.createElement('span');
+                span.textContent = member;
+                memberContainer.appendChild(span);
+            });
+
+            renderTechForProject(project.techs);
+        }
+
+        function renderTechForProject(techKeys) {
+            techGrid.innerHTML = '';
+            if (!techKeys || techKeys.length === 0) {
+                techGrid.innerHTML = '<span style="color: var(--text-muted); font-size: 0.9rem;">Sin tecnologías asignadas</span>';
+                return;
+            }
+            techKeys.forEach(key => {
+                const tech = technologies.find(t => t.key === key);
+                if (tech) {
+                    const item = document.createElement('div');
+                    item.className = 'tech-item';
+                    if (tech.devicon) {
+                        item.innerHTML = `<i class="devicon-${tech.devicon}-plain colored"></i><span>${tech.name}</span>`;
+                    } else if (tech.logoUrl) {
+                        item.innerHTML = `<img src="${tech.logoUrl}" alt="${tech.name}" /><span>${tech.name}</span>`;
+                    } else if (tech.svg) {
+                        item.innerHTML = `${tech.svg}<span>${tech.name}</span>`;
+                    } else {
+                        item.innerHTML = `<span>${tech.name}</span>`;
+                    }
+                    techGrid.appendChild(item);
+                }
+            });
+        }
+
+        // --- TEMA ---
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('change', function () {
+            document.body.classList.toggle('light-mode', this.checked);
+        });
+
+        // --- TAMAÑO DE LETRA ---
+        let currentFontSize = 16;
+        function changeFontSize(delta) {
+            let newSize = Math.min(22, Math.max(13, currentFontSize + (delta * 2)));
+            if (newSize !== currentFontSize) {
+                currentFontSize = newSize;
+                document.documentElement.style.fontSize = currentFontSize + 'px';
+            }
+        }
+
+        // Inicializar
+        renderProjects();
+    </script>
+</body>
+</html>
