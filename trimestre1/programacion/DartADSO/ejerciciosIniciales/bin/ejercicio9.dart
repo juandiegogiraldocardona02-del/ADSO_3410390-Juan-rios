@@ -1,4 +1,4 @@
-//Juan Camilo Gil Perez
+//Juan Diego Rios
 //ADSO 3410390
 // Pedir el lado de un cubo y calcular su volumen V = lado^3. 
 

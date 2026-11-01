@@ -1,4 +1,4 @@
-//Juan Camilo Gil Perez
+//Juan Diego Rios
 //ADSO 3410390
 
 //Pedir al usuario su edad actual y mostrar cuántos años tendrá en el año 2050

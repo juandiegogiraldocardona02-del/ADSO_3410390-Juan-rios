@@ -1,4 +1,4 @@
-//Juan Camilo Gil Perez
+//Juan Diego Rios
 //ADSO 3410390
 
 //Hacer un algoritmo que lea el nombre de un conductor

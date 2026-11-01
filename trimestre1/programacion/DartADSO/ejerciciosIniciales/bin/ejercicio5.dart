@@ -1,4 +1,4 @@
-//Juan Camilo Gil Perez
+//Juan Diego Rios
 //ADSO 3410390
 
 // Hacer un algoritmo que lea la base y la altura de un triángulo y
